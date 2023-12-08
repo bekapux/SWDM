@@ -31,7 +31,10 @@
 
     <ItemGroup>
       <Folder Include="Database\Seed\" />
-      <Folder Include="Utilities\Exceptions\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\.editorconfig" Link=".editorconfig" />
     </ItemGroup>
 
 </Project>

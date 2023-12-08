@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace Sawoodamo.API.Features.Products;
 
 public sealed record CreateProductCommand(
@@ -9,6 +7,15 @@ public sealed record CreateProductCommand(
     string Slug,
     int CategoryId
 ) : IRequest<int>;
+
+public sealed class Endpoint : CarterModule
+{
+    public override void AddRoutes(IEndpointRouteBuilder app)
+    {
+         app.MapPost("api/products", async (CreateProductCommand command, ISender sender) =>
+                Results.Ok(await sender.Send(command))).WithTags("Product");
+    }
+}
 
 public sealed class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
@@ -40,11 +47,4 @@ public class CreateProductCommandHandler(SawoodamoDbContext context) : IRequestH
 
         return product.Id;
     }
-}
-
-public sealed class Endpoint : ICarterModule
-{
-    public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("api/products", async (CreateProductCommand command, ISender sender) =>
-            Results.Ok(await sender.Send(command)));
 }

@@ -1,18 +1,20 @@
 ﻿namespace Sawoodamo.API.Features.Categories;
 
-public sealed class CreateCategoryEndpoint : ICarterModule
-{
-    public void AddRoutes(IEndpointRouteBuilder app)
-    {
-        app.MapPost("api/category", async (CreateCategoryCommand command, ISender sender) => Results.Ok(await sender.Send(command)));
-    }
-}
-
 public sealed record CreateCategoryCommand(
     string Name,
     string Slug,
     int Order)
 : IRequest<int>;
+
+public sealed class CreateCategoryEndpoint : ICarterModule
+{
+    public void AddRoutes(IEndpointRouteBuilder app)=>
+        app.MapPost("api/category", async (CreateCategoryCommand command, ISender sender) => 
+            Results.Ok(await sender.Send(command)))
+
+    .WithTags("Category");
+}
+
 
 public sealed class CreateCategoryCommandHandler(SawoodamoDbContext context) : IRequestHandler<CreateCategoryCommand, int>
 {

@@ -2,30 +2,19 @@ using FluentValidation.Results;
 
 namespace Sawoodamo.API.Utilities.Validation;
 
-public sealed class ValidationException : Exception
+public sealed class ValidationException(IEnumerable<ValidationFailure> failures) : Exception("One or more validation failures has occurred.")
 {
-    public ValidationException(IEnumerable<ValidationFailure> failures) : base("One or more validation failures has occurred.")
-    {
-        Errors = failures
+    public IReadOnlyCollection<Error> Errors { get; } = failures
             .Distinct()
             .Select(failure => new Error(failure.ErrorCode, failure.ErrorMessage))
             .ToList();
-    }
-
-    public IReadOnlyCollection<Error> Errors { get; }
 }
 
-public sealed class Error : ValueObject
+public sealed class Error(string code, string message) : ValueObject
 {
-    public Error(string code, string message)
-    {
-        Code = code;
-        Message = message;
-    }
+    public string Code { get; } = code;
 
-    public string Code { get; }
-
-    public string Message { get; }
+    public string Message { get; } = message;
 
     public static implicit operator string(Error error) => error?.Code ?? string.Empty;
 
@@ -34,8 +23,6 @@ public sealed class Error : ValueObject
         yield return Code;
         yield return Message;
     }
-
-    internal static Error None => new(string.Empty, string.Empty);
 }
 
 public abstract class ValueObject : IEquatable<ValueObject>

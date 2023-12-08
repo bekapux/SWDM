@@ -7,15 +7,17 @@ global using Sawoodamo.API;
 global using Sawoodamo.API.Database;
 global using Sawoodamo.API.Database.Entities;
 global using Sawoodamo.API.Database.Entities.Utilities;
-global using Sawoodamo.API.Features.Products.Dto;
 global using Sawoodamo.API.Utilities;
 global using Sawoodamo.API.Utilities.Extensions;
 global using Sawoodamo.API.Utilities.Models;
-using FluentValidation;
+global using FluentValidation;
+global using Sawoodamo.API.Utilities.Exceptions;
+global using Microsoft.AspNetCore.Diagnostics;
+global using Sawoodamo.API.Utilities.Validation;
+global using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Sawoodamo.API.Utilities.Validation;
 using System.Reflection;
 using System.Text;
 
@@ -31,6 +33,7 @@ public static class ServiceRegistrations
         var thisAssembly = Assembly.GetExecutingAssembly();
         services.AddValidatorsFromAssembly(thisAssembly);
         services.AddMediatR(o => o.RegisterServicesFromAssemblies(thisAssembly));
+
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
         services.AddDbContext<SawoodamoDbContext>(options =>

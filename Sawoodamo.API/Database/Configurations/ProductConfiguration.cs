@@ -25,5 +25,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasIndex(x => x.Slug).IsUnique();
         builder.HasIndex(x => x.Name).IsUnique();
         builder.HasIndex(x => x.CategoryId);
+
+        builder.HasQueryFilter(x => x.IsDeleted == false);
     }
 }

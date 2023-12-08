@@ -1,6 +1,4 @@
-﻿using Sawoodamo.API.Database.Entities.Utilities;
-
-namespace Sawoodamo.API.Database.Entities;
+﻿namespace Sawoodamo.API.Database.Entities;
 
 public sealed class ProductImage : BaseDomainEntity<int>
 {

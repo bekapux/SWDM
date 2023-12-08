@@ -1,65 +1,37 @@
-﻿using Sawoodamo.API.Utilities.Validation;
-using System.Net;
-using System.Text.Json;
+﻿namespace Sawoodamo.API.Utilities;
 
-namespace Sawoodamo.API.Utilities;
-
-public sealed class ExceptionMiddleware
+public static class ExceptionHandling
 {
-    #region Constructor
-
-    private readonly RequestDelegate _next;
-
-    public ExceptionMiddleware(RequestDelegate next)
+    public static void HandleExceptions(this WebApplication app)
     {
-        _next = next;
+        app.UseExceptionHandler(handler =>
+        {
+            handler.Run(async context =>
+            {
+                context.Response.ContentType = "application/json";
+
+                var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+
+                (int httpStatusCode, IReadOnlyCollection<Error> errors) = GetHttpStatusCodeAndErrors(exceptionHandlerPathFeature?.Error);
+
+                context.Response.StatusCode = httpStatusCode;
+
+                string response = JsonSerializer.Serialize(new ApiErrorResponse(errors));
+
+                await context.Response.WriteAsync(response);
+            });
+        });
     }
 
-    #endregion
-
-    public async Task InvokeAsync(HttpContext httpContext)
+    private static (int httpStatusCode, IReadOnlyCollection<Error>) GetHttpStatusCodeAndErrors(Exception? exception)
     {
-        try
+        return exception switch
         {
-            await _next(httpContext);
-        }
-        catch (Exception ex)
-        {
-            await HandleExceptionAsync(httpContext, ex);
-        }
-    }
-
-    private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
-    {
-        (HttpStatusCode httpStatusCode, IReadOnlyCollection<Error> errors) = GetHttpStatusCodeAndErrors(exception);
-
-        httpContext.Response.ContentType = "application/json";
-
-        httpContext.Response.StatusCode = (int)httpStatusCode;
-
-        var serializerOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            Validation.ValidationException validationException => (StatusCodes.Status400BadRequest, validationException.Errors),
+            NotFoundException notFoundException => (StatusCodes.Status404NotFound, new[] { new Error("NotFound", notFoundException.Message) }),
+            _ => (StatusCodes.Status500InternalServerError, new[] { new Error("General.ServerError", "Something went wrong") })
         };
-
-        string response = JsonSerializer.Serialize(new ApiErrorResponse(errors), serializerOptions);
-
-        await httpContext.Response.WriteAsync(response);
     }
-
-    private static (HttpStatusCode httpStatusCode, IReadOnlyCollection<Error>) GetHttpStatusCodeAndErrors(Exception exception) =>
-exception switch
-{
-    ValidationException validationException => (HttpStatusCode.BadRequest, validationException.Errors),
-    //NotFoundException notFoundException => (HttpStatusCode.NotFound, new[] { new Error("NotFound", notFoundException.Message) }),
-    //GeneralException generalException => (HttpStatusCode.BadRequest, new[] { generalException.Error }),
-    _ => (HttpStatusCode.InternalServerError, new[] { new Error("General.ServerError", "The server encountered an unrecoverable error.") })
-};
 }
 
-public class ApiErrorResponse
-{
-    public ApiErrorResponse(IReadOnlyCollection<Error> errors) => Errors = errors;
-
-    public IReadOnlyCollection<Error> Errors { get; }
-}
+public sealed record ApiErrorResponse(IReadOnlyCollection<Error> Errors) { }
