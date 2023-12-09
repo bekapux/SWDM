@@ -21,6 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using Sawoodamo.API.Services;
 
 namespace Sawoodamo.API;
 
@@ -30,8 +31,10 @@ public static class ServiceRegistrations
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerDoc();
+        services.AddHttpContextAccessor();
 
         var thisAssembly = Assembly.GetExecutingAssembly();
+
         services.AddValidatorsFromAssembly(thisAssembly);
         services.AddMediatR(o => o.RegisterServicesFromAssemblies(thisAssembly));
 
@@ -46,6 +49,8 @@ public static class ServiceRegistrations
         services.AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<SawoodamoDbContext>()
             .AddDefaultTokenProviders();
+
+        services.AddScoped<ISessionService, SessionService>();
 
         services.AddAuthentication(configuration);
 
