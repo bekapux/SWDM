@@ -23,14 +23,14 @@ public sealed class GetProductBySlugQueryHandler(SawoodamoDbContext context) : I
                 Slug = x.Slug,
                 Name = x.Name,
                 Id = x.Id,
-                ProductImages = x.ProductImages!.Select(x=> new ProductImageDto
+                ProductImages = x.ProductImages!.Select(x => new ProductImageDto
                 {
                     Id = x.Id,
                     Base64Value = x.Base64Value,
                     Order = x.Order
                 }),
                 ShortDescription = x.ShortDescription,
-            }).FirstOrDefaultAsync(x=> x.Slug == request.Slug, cancellationToken);
+            }).FirstOrDefaultAsync(x => x.Slug == request.Slug, cancellationToken);
 
         if (product is null)
         {
