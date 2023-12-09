@@ -4,7 +4,8 @@ public sealed class GetProductsByCategorySlugEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
         app.MapPost("api/producst-by-category", async (GetProductsByCategorySlugQuery query, ISender sender, CancellationToken token) => 
-            await sender.Send(query, token)).WithTags("Product");
+            await sender.Send(query, token))
+    .WithTags("Product");
 }
 
 public sealed record GetProductsByCategorySlugQuery(

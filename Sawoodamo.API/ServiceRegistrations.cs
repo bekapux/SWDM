@@ -15,6 +15,7 @@ global using Sawoodamo.API.Utilities.Exceptions;
 global using Microsoft.AspNetCore.Diagnostics;
 global using Sawoodamo.API.Utilities.Validation;
 global using System.Text.Json;
+global using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

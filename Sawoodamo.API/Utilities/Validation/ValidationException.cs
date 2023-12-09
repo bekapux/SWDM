@@ -44,9 +44,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
 
     public static bool operator !=(ValueObject a, ValueObject b) => !(a == b);
 
-
     public bool Equals(ValueObject? other) => other is not null && GetAtomicValues().SequenceEqual(other.GetAtomicValues());
-
 
     public override bool Equals(object? obj)
     {
@@ -63,7 +61,6 @@ public abstract class ValueObject : IEquatable<ValueObject>
         return obj is ValueObject valueObject && GetAtomicValues().SequenceEqual(valueObject.GetAtomicValues());
     }
 
-
     public override int GetHashCode()
     {
         HashCode hashCode = default;
@@ -75,7 +72,6 @@ public abstract class ValueObject : IEquatable<ValueObject>
 
         return hashCode.ToHashCode();
     }
-
 
     protected abstract IEnumerable<object> GetAtomicValues();
 }
