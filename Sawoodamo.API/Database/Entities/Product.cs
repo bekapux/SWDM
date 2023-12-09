@@ -11,6 +11,7 @@ public sealed class Product : BaseDomainEntity<int>
 
     #region Nav Properties
 
+    public List<ProductImage>? ProductImages { get; set; }
     public Category? Category { get; set; }
 
     #endregion
