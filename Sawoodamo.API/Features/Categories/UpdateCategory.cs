@@ -1,16 +1,5 @@
 ﻿namespace Sawoodamo.API.Features.Categories;
 
-public class UpdateCategoryEndpoint : ICarterModule
-{
-    public void AddRoutes(IEndpointRouteBuilder app)
-    {
-        app.MapPut("api/category", async (ISender sender, UpdateCategoryCommand command, CancellationToken token) => 
-            await sender.Send(command, token))
-
-        .WithTags("Category");
-    }
-}
-
 public sealed record UpdateCategoryCommand(int Id, string Slug, int? Order, string Name) : IRequest;
 
 public sealed class UpdateCategoryCommandHandler(SawoodamoDbContext context) : IRequestHandler<UpdateCategoryCommand>

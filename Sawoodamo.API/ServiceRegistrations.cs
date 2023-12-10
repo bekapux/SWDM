@@ -1,4 +1,3 @@
-global using Carter;
 global using MediatR;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -16,12 +15,14 @@ global using Microsoft.AspNetCore.Diagnostics;
 global using Sawoodamo.API.Utilities.Validation;
 global using System.Text.Json;
 global using System.ComponentModel.DataAnnotations;
+global using Sawoodamo.API.Services;
+global using Sawoodamo.API.Features.Categories;
+global using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
-using Sawoodamo.API.Services;
 
 namespace Sawoodamo.API;
 
@@ -29,13 +30,15 @@ public static class ServiceRegistrations
 {
     public static IServiceCollection ConfigureApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddAuthorization();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerDoc();
         services.AddHttpContextAccessor();
 
         var thisAssembly = Assembly.GetExecutingAssembly();
 
-        services.AddValidatorsFromAssembly(thisAssembly);
+        services.AddValidatorsFromAssemblyContaining<SawoodamoDbContext>(ServiceLifetime.Scoped);
+
         services.AddMediatR(o => o.RegisterServicesFromAssemblies(thisAssembly));
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));

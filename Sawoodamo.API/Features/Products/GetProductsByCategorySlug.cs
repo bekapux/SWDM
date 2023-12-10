@@ -1,17 +1,9 @@
 ﻿namespace Sawoodamo.API.Features.Products;
 
-public sealed class GetProductsByCategorySlugEndpoint : ICarterModule
-{
-    public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("api/producst-by-category", async (GetProductsByCategorySlugQuery query, ISender sender, CancellationToken token) => 
-            await sender.Send(query, token))
-    .WithTags("Product");
-}
-
 public sealed record GetProductsByCategorySlugQuery(
     string CategorySlug,
-    int PageNumber,
-    int ItemsPerPage
+    int PageNumber = 1,
+    int ItemsPerPage = 10
 ) : IRequest<PaginatedListResult<ProductListItemDTO>>;
 
 public sealed class GetProductsByCategorySlugQueryHandler(SawoodamoDbContext context) : IRequestHandler<GetProductsByCategorySlugQuery, PaginatedListResult<ProductListItemDTO>>
@@ -21,6 +13,7 @@ public sealed class GetProductsByCategorySlugQueryHandler(SawoodamoDbContext con
         var products = await context.Products
             .AsNoTracking()
             .Include(x => x.Category)
+            .Include(x=> x.ProductImages)
             .Where(x => x.Category != null && x.Category.Slug == request.CategorySlug)
             .ToPaginatedListAsync(
                 pageNumber: request.PageNumber,
@@ -33,6 +26,7 @@ public sealed class GetProductsByCategorySlugQueryHandler(SawoodamoDbContext con
                     Name = product!.Name,
                     Order = product.Order,
                     ShortDescription = product.ShortDescription,
+                    Base64Value = product.ProductImages?.FirstOrDefault(x=> x.IsMainImage)?.Base64Value
                 },
                 cancellationToken
             );
@@ -51,4 +45,5 @@ public sealed record ProductListItemDTO
     public string Slug { get; set; } = String.Empty;
     public int? Order { get; set; }
     public string CategoryName { get; set; } = String.Empty;
+    [Base64String] public string? Base64Value { get; set; } = String.Empty;
 }

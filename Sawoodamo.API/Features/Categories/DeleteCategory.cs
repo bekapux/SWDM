@@ -2,19 +2,6 @@
 
 public sealed record DeleteCategoryCommand(int Id) : IRequest;
 
-public sealed class DeleteCategoryEndpoint : ICarterModule
-{
-    public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapDelete("api/category/{id:int}", async (int id, ISender sender) =>
-        {
-            await sender.Send(new DeleteCategoryCommand(id));
-            Results.Ok();
-        })
-
-    .WithTags("Category");
-}
-
-
 public sealed class DeleteCategoryCommandHandler(SawoodamoDbContext context) : IRequestHandler<DeleteCategoryCommand>
 {
     public async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
@@ -22,7 +9,7 @@ public sealed class DeleteCategoryCommandHandler(SawoodamoDbContext context) : I
         var product = await context.Categories
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-        if (product is null || product.IsDeleted)
+        if (product is null)
         {
             throw new NotFoundException(nameof(Category), request.Id);
         }

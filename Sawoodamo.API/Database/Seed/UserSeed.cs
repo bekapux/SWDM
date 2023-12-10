@@ -25,7 +25,7 @@ public class UserSeed : IEntityTypeConfiguration<User>
                 AccessFailedCount = 0,
                 IsActive = true,
                 LockoutEnabled = true,
-                PasswordHash = hasher.HashPassword(null, "asdASD123!"),
+                PasswordHash = hasher.HashPassword(null!, "asdASD123!"),
                 NormalizedUserName = "BEKA.PUKHASHVILI",
             }
         );

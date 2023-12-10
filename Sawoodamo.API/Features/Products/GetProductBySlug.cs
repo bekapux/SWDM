@@ -2,14 +2,6 @@
 
 public sealed record GetProductBySlugQuery(string Slug) : IRequest<ProductDto>;
 
-public sealed class GetProductEndpoint : ICarterModule
-{
-    public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapGet("api/product/{slug}", async (ISender sender, string slug, CancellationToken token) =>
-            await sender.Send(new GetProductBySlugQuery(slug), token))
-    .WithTags("Product");
-}
-
 public sealed class GetProductBySlugQueryHandler(SawoodamoDbContext context) : IRequestHandler<GetProductBySlugQuery, ProductDto>
 {
     public Task<ProductDto> Handle(GetProductBySlugQuery request, CancellationToken cancellationToken)

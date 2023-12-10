@@ -12,6 +12,7 @@ public static class Constants
     {
         public const int GuidMaxLength = 36;
         public const int PhoneNumberMaxLength = 36;
+        public const int SlugMaxLength = 255;
     }
 
     public static class User
@@ -26,7 +27,6 @@ public static class Constants
         public const int ProductNameMaxLength = 100;
         public const int ProductShortDescriptionMaxLength = 250;
         public const int ProductFullDescriptionMaxLength = 1000;
-        public const int ProductSlugMaxLength = 1000;
     }
 
     public static class Category

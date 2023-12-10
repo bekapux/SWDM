@@ -1,8 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureApplicationServices(builder.Configuration);
-builder.Services.AddCarter();
-builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -20,6 +18,6 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.MapCarter();
+app.UseMinimalControllers();
 
 app.Run();

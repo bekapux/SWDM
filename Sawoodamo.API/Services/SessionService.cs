@@ -4,21 +4,17 @@ namespace Sawoodamo.API.Services;
 
 public class SessionService(IHttpContextAccessor contextAccessor) : ISessionService
 {
-    public int GetCurrentUserId()
+    public string? GetCurrentUserId()
     {
         var request = contextAccessor.HttpContext?.Request;
+
         if (request == null)
         {
             return default;
         }
 
         var claim = GetClaimBy(ClaimTypes.NameIdentifier);
-        if (string.IsNullOrWhiteSpace(claim))
-        {
-            return default;
-        }
-
-        return int.TryParse(claim, out var userId) ? userId : default;
+        return claim;
     }
 
     public string? GetCurrentUserEmail()

@@ -2,6 +2,6 @@
 
 public interface ISessionService
 {
-    int GetCurrentUserId();
+    string? GetCurrentUserId();
     string? GetCurrentUserEmail();
 }

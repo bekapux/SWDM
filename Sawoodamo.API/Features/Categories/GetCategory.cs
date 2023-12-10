@@ -1,15 +1,8 @@
 ﻿namespace Sawoodamo.API.Features.Categories;
 
 public sealed record CategoryDTO(int Id, string Slug, string Name, int? Order, bool? IsActive);
-public sealed record GetCategoryQuery(int Id) : IRequest<CategoryDTO>;
-public sealed class GetCategoryEndpoint : ICarterModule
-{
-    public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapGet("api/category/{id:int}", async (int id, ISender sender, CancellationToken token) =>
-            Results.Ok(await sender.Send(new GetCategoryQuery(id), token)))
 
-    .WithTags("Category");
-}
+public sealed record GetCategoryQuery(int Id) : IRequest<CategoryDTO>;
 
 public sealed class GetCategoryQueryHandler(SawoodamoDbContext context) : IRequestHandler<GetCategoryQuery, CategoryDTO>
 {

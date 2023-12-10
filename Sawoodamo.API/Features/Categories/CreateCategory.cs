@@ -1,50 +1,43 @@
-﻿using System.Text.RegularExpressions;
+﻿namespace Sawoodamo.API.Features.Categories;
 
-public sealed record CreateCategoryCommand(
-    string Name,
-    string Slug,
-    int Order)
-: IRequest<int>;
+public sealed record CreateCategoryCommand(string Name, string Slug, int? Order) : IRequest<int>;
 
-//public sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
-//{
-//    public CreateCategoryCommandValidator(SawoodamoDbContext context)
-//    {
-//        RuleFor(x => x.Name)
-//            .MaximumLength(Constants.Product.ProductNameMaxLength)
-//                .WithMessage($"Maximum length of the name should be {Constants.Product.ProductNameMaxLength} symbols")
-//            .NotNull()
-//                .WithMessage("Name is required")
-//            .NotEmpty()
-//                .WithMessage("Name is required")
-//            .MustAsync(async (name, cancellation) =>
-//            {
-//                return await context.Products.FirstOrDefaultAsync(x => x.Name == name, cancellation) is null;
-//            });
-
-//        RuleFor(x => x.Slug)
-//            .Matches(new Regex("^[a-z0-9]+(?:-[a-z0-9]+)*$"))
-//                .WithMessage("Invalid slug")
-//            .MaximumLength(Constants.Product.ProductSlugMaxLength)
-//                .WithMessage($"Maximum length of the slug should be {Constants.Product.ProductNameMaxLength} symbols")
-//            .MustAsync(async (slug, cancellation) =>
-//            {
-//                return await context.Products.FirstOrDefaultAsync(x => x.Slug == slug, cancellation) is null;
-//            });
-
-//        RuleFor(x => x.Order)
-//            .GreaterThan(0)
-//                .WithMessage("Invalid order");
-//    }
-//}
-
-public sealed class CreateCategoryEndpoint : ICarterModule
+public sealed partial class CreateCategoryCommandValidator: AbstractValidator<CreateCategoryCommand>
 {
-    public void AddRoutes(IEndpointRouteBuilder app)=>
-        app.MapPost("api/category", async (CreateCategoryCommand command, ISender sender) => 
-            Results.Ok(await sender.Send(command)))
+    public CreateCategoryCommandValidator(SawoodamoDbContext context)
+    {
+        RuleFor(x => x.Name)
+            .MaximumLength(Constants.Category.CategoryNameMaxLength)
+                .WithMessage($"Maximum length of the name should be {Constants.Category.CategoryNameMaxLength} symbols")
+            .NotNull()
+                .WithMessage("Name is required")
+            .NotEmpty()
+                .WithMessage("Name is required")
+            .MustAsync(async (name, cancellation) =>
+            {
+                var result = await context.Categories.FirstOrDefaultAsync(x => x.Name == name, cancellation);
+                return result is null;
+            })
+                .WithMessage("The name is already in use")
+                .WithErrorCode("DuplicateName");
 
-    .WithTags("Category");
+        RuleFor(x => x.Slug)
+            .Matches(RegexValidators.SlugValidatorRegex())
+                .WithMessage("Invalid slug")
+            .MaximumLength(Constants.Other.SlugMaxLength)
+                .WithMessage($"Maximum length of the slug should be {Constants.Other.SlugMaxLength} symbols")
+            .MustAsync(async (slug, cancellation) =>
+            {
+                var result = await context.Categories.FirstOrDefaultAsync(x => x.Slug == slug, cancellation);
+                return result is null;
+            })
+                .WithMessage("The slug is already in use")
+                .WithErrorCode("DuplicateSlug");
+
+        RuleFor(x => x.Order)
+            .Must(order => order is null || order > 0)
+                .WithMessage("Invalid order");
+    }
 }
 
 public sealed class CreateCategoryCommandHandler(SawoodamoDbContext context) : IRequestHandler<CreateCategoryCommand, int>

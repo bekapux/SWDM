@@ -8,15 +8,6 @@ public sealed record CreateProductCommand(
     int CategoryId
 ) : IRequest<int>;
 
-public sealed class Endpoint : CarterModule
-{
-    public override void AddRoutes(IEndpointRouteBuilder app)
-    {
-         app.MapPost("api/products", async (CreateProductCommand command, ISender sender) =>
-                Results.Ok(await sender.Send(command))).WithTags("Product");
-    }
-}
-
 public sealed class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
     public CreateProductCommandValidator()
@@ -42,8 +33,8 @@ public class CreateProductCommandHandler(SawoodamoDbContext context) : IRequestH
             DateCreated = DateTime.UtcNow
         };
 
-        await context.Products.AddAsync(product, CancellationToken.None);
-        await context.SaveChangesAsync(CancellationToken.None);
+        await context.Products.AddAsync(product, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return product.Id;
     }
