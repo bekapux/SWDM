@@ -1,3 +1,5 @@
+using FluentValidation.Results;
+
 namespace Sawoodamo.API.Utilities.Validation;
 
 internal sealed class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
@@ -11,15 +13,14 @@ internal sealed class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IVali
     {
         var context = new ValidationContext<TRequest>(request);
 
-        var validationTasks = _validators.Select(x =>
-            x.ValidateAsync(context, cancellationToken)).ToList();
+        List<ValidationFailure> failures = [];
 
-        var validationResults = await Task.WhenAll(validationTasks);
-
-        var failures = validationResults
-            .SelectMany(x => x.Errors)
-            .Where(x => x is not null)
-            .ToList();
+        foreach (var validator in _validators)
+        {
+            var result = await validator.ValidateAsync(context, cancellationToken);
+            failures.AddRange(result.Errors);
+            if (!result.IsValid) break;
+        }
 
         if (failures.Count != 0)
         {

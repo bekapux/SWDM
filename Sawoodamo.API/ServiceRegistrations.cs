@@ -37,7 +37,7 @@ public static class ServiceRegistrations
 
         var thisAssembly = Assembly.GetExecutingAssembly();
 
-        services.AddValidatorsFromAssemblyContaining<SawoodamoDbContext>(ServiceLifetime.Scoped);
+        services.AddValidatorsFromAssemblyByOrder(thisAssembly);
 
         services.AddMediatR(o => o.RegisterServicesFromAssemblies(thisAssembly));
 
@@ -124,5 +124,22 @@ public static class ServiceRegistrations
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!))
             };
         });
+    }
+
+    public static void AddValidatorsFromAssemblyByOrder(this IServiceCollection services, Assembly assembly)
+    {
+        var validators = AssemblyScanner.FindValidatorsInAssembly(assembly, false)
+            .Select(v => new
+            {
+                Validator = v,
+                Order = v.ValidatorType.GetCustomAttribute<ValidationOrderAttribute>()?.Order ?? int.MaxValue
+            })
+            .OrderBy(v => v.Order);
+
+        foreach (var validator in validators)
+        {
+            services.Add(new ServiceDescriptor(validator.Validator.InterfaceType, validator.Validator.ValidatorType, ServiceLifetime.Scoped));
+            services.Add(new ServiceDescriptor(serviceType: validator.Validator.ValidatorType, implementationType: validator.Validator.ValidatorType, lifetime: ServiceLifetime.Scoped));
+        };
     }
 }
