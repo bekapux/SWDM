@@ -5,17 +5,25 @@ public sealed record CreateProductCommand(
     string ShortDescription,
     string FullDescription,
     string Slug,
-    int CategoryId
+    int? Order
 ) : IRequest<int>;
 
 public sealed class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
     public CreateProductCommandValidator()
     {
+        RuleFor(x => x.Order)
+            .Must(order => order is null || order > 0)
+                .WithMessage("Invalid order");
+
         RuleFor(x => x.Name)
             .NotNull()
             .NotEmpty()
-            .MaximumLength(Constants.Product.ProductNameMaxLength);
+                .WithMessage("Name is required")
+            .MaximumLength(Constants.Product.NameMaxLength)
+                .WithMessage(ErrorMessageGenerator.Length(nameof(Product.Name), Constants.Product.NameMinLength, Constants.Product.NameMaxLength));
+
+
     }
 }
 
@@ -29,8 +37,8 @@ public class CreateProductCommandHandler(SawoodamoDbContext context) : IRequestH
             FullDescription = request.FullDescription,
             ShortDescription = request.ShortDescription,
             Slug = request.Slug,
-            CategoryId = request.CategoryId,
-            DateCreated = DateTime.UtcNow
+            DateCreated = DateTime.UtcNow,
+            Order = request.Order
         };
 
         await context.Products.AddAsync(product, cancellationToken);

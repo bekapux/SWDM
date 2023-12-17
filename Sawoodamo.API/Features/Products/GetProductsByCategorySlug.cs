@@ -1,7 +1,7 @@
 ﻿namespace Sawoodamo.API.Features.Products;
 
 public sealed record GetProductsByCategorySlugQuery(
-    string CategorySlug,
+    string Slug,
     int PageNumber = 1,
     int ItemsPerPage = 10
 ) : IRequest<PaginatedListResult<ProductListItemDTO>>;
@@ -10,30 +10,31 @@ public sealed class GetProductsByCategorySlugQueryHandler(SawoodamoDbContext con
 {
     public async Task<PaginatedListResult<ProductListItemDTO>> Handle(GetProductsByCategorySlugQuery request, CancellationToken cancellationToken)
     {
-        var products = await context.Products
-            .AsNoTracking()
+        var category = await context.Categories
+            .FirstOrDefaultAsync(x => x.Slug == request.Slug, cancellationToken);
+
+        if(category is null)
+            throw new NotFoundException(nameof(Category), request.Slug);
+
+        var productsFinal = await context.ProductCategories
+            .Include(x => x.Product)
             .Include(x => x.Category)
-            .Include(x=> x.ProductImages)
-            .Where(x => x.Category != null && x.Category.Slug == request.CategorySlug)
+            .Where(x => x.CategoryId == category.Id)
             .ToPaginatedListAsync(
                 pageNumber: request.PageNumber,
                 itemsPerPage: request.ItemsPerPage,
-                product => new ProductListItemDTO
-                {
-                    CategoryName = product.Category?.Name ?? String.Empty,
-                    Slug = product?.Slug ?? String.Empty,
-                    FullDescription = product?.FullDescription,
-                    Name = product!.Name,
-                    Order = product.Order,
-                    ShortDescription = product.ShortDescription,
-                    Base64Value = product.ProductImages?.FirstOrDefault(x=> x.IsMainImage)?.Base64Value
-                },
-                cancellationToken
-            );
+                mapper: productCategory => new ProductListItemDTO
+                    {
+                        Slug = productCategory.Product.Slug ?? String.Empty,
+                        FullDescription = productCategory.Product?.FullDescription,
+                        Name = productCategory.Product!.Name,
+                        Order = productCategory.Product.Order,
+                        ShortDescription = productCategory.Product.ShortDescription,
+                        Base64Value = productCategory.Product.ProductImages?.FirstOrDefault(x => x.IsMainImage)?.Base64Value
+                    },
+                cancellationToken: cancellationToken);
 
-        products.ResultList = products.ResultList?.OrderBy(x => x.Order).ToList();
-
-        return products;
+        return productsFinal;
     }
 }
 
@@ -44,6 +45,5 @@ public sealed record ProductListItemDTO
     public string? FullDescription { get; set; }
     public string Slug { get; set; } = String.Empty;
     public int? Order { get; set; }
-    public string CategoryName { get; set; } = String.Empty;
     [Base64String] public string? Base64Value { get; set; } = String.Empty;
 }

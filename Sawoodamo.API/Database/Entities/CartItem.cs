@@ -8,6 +8,7 @@ public sealed class CartItem
     public string? UserId { get; set; }
 
     #region Nav Properties
+
     public Product? Product { get; set; }
     public User? User { get; set; }
 

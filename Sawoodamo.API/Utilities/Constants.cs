@@ -1,4 +1,6 @@
-﻿namespace Sawoodamo.API.Utilities;
+﻿using FluentValidation.Validators;
+
+namespace Sawoodamo.API.Utilities;
 
 public static class Constants
 {
@@ -24,13 +26,45 @@ public static class Constants
 
     public static class Product
     {
-        public const int ProductNameMaxLength = 100;
-        public const int ProductShortDescriptionMaxLength = 250;
-        public const int ProductFullDescriptionMaxLength = 1000;
+        public const int NameMaxLength = 100;
+        public const int NameMinLength = 2;
+        public const int ShortDescriptionMaxLength = 250;
+        public const int FullDescriptionMaxLength = 1000;
     }
 
     public static class Category
     {
-        public const int CategoryNameMaxLength = 50;
+        public const int NameMaxLength = 50;
+        public const int NameMinLength = 2;
     }
+
+    public static class Slug
+    {
+        public const int MaxLength = 255;
+        public const int MinLength = 1;
+    }
+
+    public static class AsyncValidatorErrorCodes
+    {
+        public const string DuplicateSlug = "DuplicateSlug";
+        public const string DuplicateName = "DuplicateName";
+        public const int ErrorCode = 404;
+    }
+}
+public static class ErrorMessageGenerator
+{
+    public static string Length(string propertyName, int minLength, int maxLength) =>
+        $"{propertyName} must contain {minLength} - {maxLength} characters";
+
+    public static string Invalid(string propertyName) =>
+        $"{propertyName} is invalid";
+
+    public static string Required(string propertyName) =>
+        $"{propertyName} is required";
+
+    public static string InUse(string propertyName) =>
+        $"{propertyName} is not free";
+
+    public static string MaxLength(string propertyName, int length) =>
+        $"{propertyName} must be shorter than {length} characters";
 }

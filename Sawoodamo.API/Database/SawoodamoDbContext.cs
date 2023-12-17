@@ -16,6 +16,7 @@ public class SawoodamoDbContext(DbContextOptions options, IHttpContextAccessor h
     }
 
     public DbSet<Product> Products { get; set; }
+    public DbSet<ProductCategory> ProductCategories { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<CartItem> CartItems { get; set; }
     public DbSet<ProductImage> ProductImages { get; set; }

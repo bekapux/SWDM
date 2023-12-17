@@ -12,11 +12,11 @@ public static class IQuarableExtensions
         int pageNumber,
         int itemsPerPage,
         Func<T, TResult> mapper,
-        CancellationToken token = default)
+        CancellationToken cancellationToken)
     {
-        var totalRecords = await query.CountAsync(token);
+        var totalRecords = await query.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling((double)totalRecords / itemsPerPage);
-        var items = await query.Skip((pageNumber - 1) * itemsPerPage).Take(itemsPerPage).ToListAsync(token);
+        var items = await query.Skip((pageNumber - 1) * itemsPerPage).Take(itemsPerPage).ToListAsync(cancellationToken);
 
         var resultList = items.Select(mapper).ToList();
 

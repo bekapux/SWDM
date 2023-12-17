@@ -7,12 +7,11 @@ public sealed class Product : BaseDomainEntity<int>
     public string FullDescription { get; set; } = String.Empty;
     public string Slug { get; set; } = String.Empty;
     public int? Order { get; set; }
-    public int CategoryId { get; set; }
 
     #region Nav Properties
 
     public List<ProductImage>? ProductImages { get; set; }
-    public Category? Category { get; set; }
+    public ICollection<ProductCategory> ProductCategories { get; set; }
 
     #endregion
 }

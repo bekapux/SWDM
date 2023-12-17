@@ -17,14 +17,13 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         #endregion
 
-        builder.Property(x => x.Name).HasMaxLength(Constants.Product.ProductNameMaxLength).IsRequired();
-        builder.Property(x => x.ShortDescription).HasMaxLength(Constants.Product.ProductShortDescriptionMaxLength).IsRequired();
-        builder.Property(x => x.FullDescription).HasMaxLength(Constants.Product.ProductFullDescriptionMaxLength);
-        builder.Property(x => x.Slug).HasMaxLength(Constants.Product.ProductFullDescriptionMaxLength);
+        builder.Property(x => x.Name).HasMaxLength(Constants.Product.NameMaxLength).IsRequired();
+        builder.Property(x => x.ShortDescription).HasMaxLength(Constants.Product.ShortDescriptionMaxLength).IsRequired();
+        builder.Property(x => x.FullDescription).HasMaxLength(Constants.Product.FullDescriptionMaxLength);
+        builder.Property(x => x.Slug).HasMaxLength(Constants.Product.FullDescriptionMaxLength);
 
         builder.HasIndex(x => x.Slug).IsUnique();
         builder.HasIndex(x => x.Name).IsUnique();
-        builder.HasIndex(x => x.CategoryId);
 
         builder.HasQueryFilter(x => x.IsDeleted == false);
     }
