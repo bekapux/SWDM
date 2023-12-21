@@ -10,7 +10,6 @@ public class CategorySeed : IEntityTypeConfiguration<Category>
             new Category
             {
                 Id = 1,
-                DateCreated = DateTime.UtcNow,
                 IsActive = true,
                 IsDeleted = false,
                 Name = "Electronics",
@@ -20,7 +19,6 @@ public class CategorySeed : IEntityTypeConfiguration<Category>
             new Category
             {
                 Id = 2,
-                DateCreated = DateTime.UtcNow.AddDays(-2),
                 IsActive = true,
                 IsDeleted = false,
                 Name = "Kitchen",

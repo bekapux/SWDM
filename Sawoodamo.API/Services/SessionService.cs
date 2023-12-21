@@ -1,14 +1,17 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Sawoodamo.API.Services;
 
 public class SessionService(IHttpContextAccessor contextAccessor) : ISessionService
 {
-    public string? CurrentUserId() =>
+    public string? CurrentUserId()
+    {
 
-        contextAccessor.HttpContext?.Request is null ? default : contextAccessor.HttpContext?.User.Claims.FirstOrDefault(x =>
-                string.Equals(x.Type, ClaimTypes.NameIdentifier, StringComparison.InvariantCultureIgnoreCase))
+        return contextAccessor.HttpContext?.Request is null ? default : contextAccessor.HttpContext?.User.Claims.FirstOrDefault(x =>
+                string.Equals(x.Type, JwtRegisteredClaimNames.Jti, StringComparison.InvariantCultureIgnoreCase))
             ?.Value;
+    }
 
     public string? CurrentUserEmail() =>
         contextAccessor.HttpContext?.Request is null ?

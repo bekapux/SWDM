@@ -37,7 +37,6 @@ public class CreateProductCommandHandler(SawoodamoDbContext context) : IRequestH
             FullDescription = request.FullDescription,
             ShortDescription = request.ShortDescription,
             Slug = request.Slug,
-            DateCreated = DateTime.UtcNow,
             Order = request.Order
         };
 

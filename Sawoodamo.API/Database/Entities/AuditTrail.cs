@@ -9,5 +9,6 @@ public class AuditTrail
     public string? ModifiesFieldsJoined { get; set; }
     public string? OldValue{ get; set; }
     public string? NewValue{ get; set; }
+    public string? UserId { get; set; }
     public DateTime Timestamp { get; set; }
 }

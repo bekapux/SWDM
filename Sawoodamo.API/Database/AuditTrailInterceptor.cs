@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Sawoodamo.API.Database;
 
@@ -10,9 +11,11 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
         var entries = GetAuditableEntries(eventData);
+        var sessionService = eventData.Context!.GetService<ISessionService>();
+        var userId = sessionService.CurrentUserId();
         foreach (var entry in entries)
         {
-            var auditLog = CreateAuditLog(entry);
+            var auditLog = CreateAuditLog(entry, userId);
             eventData.Context?.Set<AuditTrail>().Add(auditLog);
         }
 
@@ -25,47 +28,45 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
         CancellationToken cancellationToken = default)
     {
         var entries = GetAuditableEntries(eventData);
+
+        var sessionService = eventData.Context!.GetService<ISessionService>();
+
+        var userId = sessionService.CurrentUserId();
+
         foreach (var entry in entries)
         {
-            var auditLog = CreateAuditLog(entry);
+            var auditLog = CreateAuditLog(entry, userId);
             await eventData.Context!.Set<AuditTrail>().AddAsync(auditLog, cancellationToken);
         }
 
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-    private static AuditTrail CreateAuditLog(EntityEntry entry)
+    private static AuditTrail CreateAuditLog(EntityEntry entry, string? userId)
     {
-        string SerializeEntity(object entity)
+        string oldValue = string.Empty;
+        string newValue = string.Empty;
+
+        switch (entry.State)
         {
-            return JsonSerializer.Serialize(entity);
+            case EntityState.Added:
+                newValue = SerializeEntity(entry.Entity);
+                break;
+            case EntityState.Modified:
+                oldValue = SerializeProperties(entry, false);
+                newValue = SerializeProperties(entry, true);
+                break;
+            case EntityState.Deleted:
+                oldValue = SerializeProperties(entry, false);
+                break;
         }
 
-        string SerializeUpdatedProperties(EntityEntry entry)
-        {
-            var properties = entry.Properties
-                .Where(p => p.IsModified)
-                .ToDictionary(p => p.Metadata.Name, p => new { Old = p.OriginalValue, New = p.CurrentValue });
+        var modifiedProperties = entry.State == EntityState.Modified    
+            ? string.Join(",", entry.Properties
+                                    .Where(p => p.IsModified)
+                                    .Select(p => p.Metadata.Name)) 
+            : string.Empty;
 
-            return JsonSerializer.Serialize(properties);
-        }
-
-        string? GetEntityId(EntityEntry entry)
-        {
-            var keyName = entry.Metadata.FindPrimaryKey()?.Properties
-                            .Select(x => x.Name)
-                            .FirstOrDefault();
-
-            return keyName != null ? entry.Property(keyName).CurrentValue?.ToString() : "Unknown";
-        }
-
-        var oldValue = entry.State == EntityState.Modified ? SerializeUpdatedProperties(entry) : string.Empty;
-        var newValue = entry.State == EntityState.Added ? SerializeEntity(entry.Entity) : oldValue;
-
-        var modifiedProperties = entry.State == EntityState.Modified    ? string.Join(",", entry.Properties
-                                                                                                .Where(p => p.IsModified)
-                                                                                                .Select(p => p.Metadata.Name)) 
-                                                                        : string.Empty;
         return new AuditTrail
         {
             EntityId = entry.State == EntityState.Modified || entry.State == EntityState.Deleted ? GetEntityId(entry) : null,
@@ -74,7 +75,8 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
             OldValue = oldValue,
             NewValue = newValue,
             ModifiesFieldsJoined = modifiedProperties,
-            Timestamp = DateTime.UtcNow
+            Timestamp = DateTime.UtcNow,
+            UserId = userId
         };
     }
 
@@ -88,5 +90,25 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
                     e.State == EntityState.Modified ||
                     e.State == EntityState.Deleted)
             .ToList() ?? Enumerable.Empty<EntityEntry>();
+    }
+
+    private static string SerializeEntity(object entity) => JsonSerializer.Serialize(entity);
+
+    private static string SerializeProperties(EntityEntry entry, bool serializeNewValues)
+    {
+        var properties = entry.Properties
+            .ToDictionary(p => p.Metadata.Name,
+                          p => serializeNewValues ? p.CurrentValue : p.OriginalValue);
+
+        return JsonSerializer.Serialize(properties);
+    }
+
+    private static string? GetEntityId(EntityEntry entry)
+    {
+        var keyName = entry.Metadata.FindPrimaryKey()?.Properties
+                        .Select(x => x.Name)
+                        .FirstOrDefault();
+
+        return keyName != null ? entry.Property(keyName).CurrentValue?.ToString() : String.Empty;
     }
 }

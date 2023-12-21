@@ -33,7 +33,6 @@ public sealed class CreateProductImageCommandHandler(SawoodamoDbContext context,
     {
         var image = new ProductImage
         {
-            DateCreated = DateTime.UtcNow,
             Base64Value = request.Base64Value,
             IsActive = true,
             IsDeleted = false,

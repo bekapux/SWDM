@@ -1,4 +1,5 @@
-﻿using Sawoodamo.API.Features.Products;
+﻿using Sawoodamo.API.Features.Auth;
+using Sawoodamo.API.Features.Products;
 
 namespace Sawoodamo.API;
 
@@ -13,6 +14,10 @@ public static class Controllers
         app.MapGroup("api/product")
             .MapProductActions()
             .WithTags("Product");
+
+        app.MapGroup("api/auth")
+            .MapAuthActions()
+            .WithTags("Auth");
     }
 
     private static RouteGroupBuilder MapCategoryActions(this RouteGroupBuilder group)
@@ -33,13 +38,13 @@ public static class Controllers
         {
             var result = await sender.Send(command);
             return Results.Ok(result);
-        });
+        }).RequireAuthorization();
 
         group.MapPut("", async (ISender sender, UpdateCategoryCommand command, CancellationToken token) =>
         {
             await sender.Send(command, token);
             return Results.Ok();
-        });
+        }).RequireAuthorization();
 
         group.MapDelete("{id:int}", async (int id, ISender sender) =>
         {
@@ -84,4 +89,15 @@ public static class Controllers
 
         return group;
     }
+
+    private static RouteGroupBuilder MapAuthActions(this RouteGroupBuilder group)
+    {
+        group.MapPost("", async (AuthenticateRequest command, ISender sender) =>
+        {
+            var result = Results.Ok(await sender.Send(command));
+            return Results.Ok(result);
+        });
+        return group;
+    }
+
 }
