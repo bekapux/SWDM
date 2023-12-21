@@ -8,8 +8,8 @@ public class ProductCategory
 
     #region Nav Properties
 
-    public Product Product { get; set; }
-    public Category Category { get; set; }
+    public Product? Product { get; set; }
+    public Category? Category { get; set; }
 
     #endregion
 }

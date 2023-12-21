@@ -8,7 +8,7 @@ public sealed class Category : BaseDomainEntity<int>
 
     #region Nav Properties
 
-    public ICollection<ProductCategory> ProductCategories { get; set; }
+    public ICollection<ProductCategory>? ProductCategories { get; set; }
 
     #endregion
 }

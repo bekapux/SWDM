@@ -70,6 +70,12 @@ public static class Controllers
             return Results.Ok(result);
         });
 
+        group.MapPut("", async (UpdateProductCommand command, ISender sender) =>
+        {
+            await sender.Send(command);
+            return Results.Ok();
+        });
+
         group.MapDelete("{id:int}", async (ISender sender, int id, CancellationToken token) =>
         {
             await sender.Send(new DeleteProductCommand(id), token);

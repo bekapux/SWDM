@@ -10,11 +10,20 @@ public static class Constants
         public const string EmailConfirmed = "emailConfirmed";
     }
 
+    public static class AuditTrails
+    {
+        public const int EntityTypeMaxLength = 100;
+        public const int TimeStampMaxLength = 100;
+        public const int OperationTypeMaxLength = 10;
+
+    }
+
     public static class Other
     {
         public const int GuidMaxLength = 36;
         public const int PhoneNumberMaxLength = 36;
         public const int SlugMaxLength = 255;
+        public const int IdMaxLength = 68;
     }
 
     public static class User

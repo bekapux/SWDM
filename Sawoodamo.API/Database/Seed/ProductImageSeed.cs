@@ -17,7 +17,6 @@ public class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
                 IsActive = true,
                 IsDeleted = false,
                 DateCreated = DateTime.Now,
-                CreatedBy = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f"
             },
             new ProductImage
             {
@@ -29,7 +28,6 @@ public class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
                 IsActive = true,
                 IsDeleted = false,
                 DateCreated = DateTime.Now,
-                CreatedBy = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f"
             },
             new ProductImage
             {
@@ -41,7 +39,6 @@ public class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
                 IsActive = true,
                 IsDeleted = false,
                 DateCreated = DateTime.Now,
-                CreatedBy = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f"
             },
             new ProductImage
             {
@@ -53,7 +50,6 @@ public class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
                 IsActive = true,
                 IsDeleted = false,
                 DateCreated = DateTime.Now,
-                CreatedBy = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f"
             }
         );
     }

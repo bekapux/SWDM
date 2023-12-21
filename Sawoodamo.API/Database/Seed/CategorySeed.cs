@@ -16,7 +16,6 @@ public class CategorySeed : IEntityTypeConfiguration<Category>
                 Name = "Electronics",
                 Slug = "electronics",
                 Order = 1,
-                CreatedBy = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f"
             },
             new Category
             {
@@ -27,7 +26,6 @@ public class CategorySeed : IEntityTypeConfiguration<Category>
                 Name = "Kitchen",
                 Slug = "kitchen",
                 Order = 2,
-                CreatedBy = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f"
             }
         );
     }

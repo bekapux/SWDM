@@ -13,7 +13,7 @@ public sealed class GetProductsByCategorySlugQueryHandler(SawoodamoDbContext con
         var category = await context.Categories
             .FirstOrDefaultAsync(x => x.Slug == request.Slug, cancellationToken);
 
-        if(category is null)
+        if (category is null)
             throw new NotFoundException(nameof(Category), request.Slug);
 
         var productsFinal = await context.ProductCategories

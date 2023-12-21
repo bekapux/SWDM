@@ -1,4 +1,6 @@
-﻿namespace Sawoodamo.API.Features.ProductImages;
+﻿using Sawoodamo.API.Services.Abstractions;
+
+namespace Sawoodamo.API.Features.ProductImages;
 
 public sealed record CreateProductImageCommand(int? ProductId, int OrderId, bool? IsMainImage, int? Order, [Base64String] string Base64Value) : IRequest;
 
@@ -13,7 +15,7 @@ public sealed class CreateProductImageCommandValidator : AbstractValidator<Creat
                 .WithMessage("Valid product ID is required")
             .MustAsync(async (productId, token) =>
             {
-                var productExists = await context.Products.AnyAsync(x=> x.Id == productId);
+                var productExists = await context.Products.AnyAsync(x=> x.Id == productId, token);
                 return productExists;
             })
                 .WithMessage("Product does not exist")
@@ -31,7 +33,6 @@ public sealed class CreateProductImageCommandHandler(SawoodamoDbContext context,
     {
         var image = new ProductImage
         {
-            CreatedBy = sessionService.GetCurrentUserId(),
             DateCreated = DateTime.UtcNow,
             Base64Value = request.Base64Value,
             IsActive = true,

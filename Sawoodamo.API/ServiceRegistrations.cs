@@ -18,11 +18,15 @@ global using System.ComponentModel.DataAnnotations;
 global using Sawoodamo.API.Services;
 global using Sawoodamo.API.Features.Categories;
 global using System.Text.RegularExpressions;
+global using Amazon.S3;
+global using Amazon.S3.Model;
+global using Sawoodamo.API.Services.Abstractions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Sawoodamo.API;
 
@@ -43,9 +47,6 @@ public static class ServiceRegistrations
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
-        services.AddDbContext<SawoodamoDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("Default"),
-                b => b.MigrationsAssembly(typeof(SawoodamoDbContext).Assembly.FullName)));
 
         services.AddHttpContextAccessor();
 
@@ -55,9 +56,24 @@ public static class ServiceRegistrations
 
         services.AddScoped<ISessionService, SessionService>();
 
+        services.ConfigureDatabaseWithAuditTrails(configuration);
+
         services.AddAuthentication(configuration);
 
         return services;
+    }
+
+    private static void ConfigureDatabaseWithAuditTrails(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<AuditTrailInterceptor>();
+
+        services.AddDbContext<SawoodamoDbContext>(options =>
+        {
+            options.UseSqlServer(configuration.GetConnectionString("Default"),
+                b => b.MigrationsAssembly(typeof(SawoodamoDbContext).Assembly.FullName));
+
+            options.AddInterceptors(new AuditTrailInterceptor());
+        });
     }
 
     public static void AddSwaggerDoc(this IServiceCollection services)

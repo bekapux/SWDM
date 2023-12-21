@@ -1,8 +1,7 @@
 namespace Sawoodamo.API.Database;
 
-public class SawoodamoDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : AuditableDbContext(options, httpContextAccessor)
+public class SawoodamoDbContext(DbContextOptions options) : IdentityUserContext<User>(options)
 {
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -14,10 +13,15 @@ public class SawoodamoDbContext(DbContextOptions options, IHttpContextAccessor h
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SawoodamoDbContext).Assembly);
     }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+    }
 
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<CartItem> CartItems { get; set; }
     public DbSet<ProductImage> ProductImages { get; set; }
+    public DbSet<AuditTrail> AuditTrails { get; set; }
 }

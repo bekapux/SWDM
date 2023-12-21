@@ -70,7 +70,7 @@ public sealed class CreateCategoryCommandHandler(SawoodamoDbContext context) : I
         };
 
         await context.Categories.AddAsync(category, CancellationToken.None);
-        await context.SaveChangesAsync<int>(CancellationToken.None);
+        await context.SaveChangesAsync(CancellationToken.None);
 
         return category.Id;
     }

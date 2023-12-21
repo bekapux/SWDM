@@ -1,7 +1,4 @@
-﻿
-using System.Threading;
-
-namespace Sawoodamo.API.Features.Products;
+﻿namespace Sawoodamo.API.Features.Products;
 
 public sealed record UpdateProductCommand(
     int Id,
