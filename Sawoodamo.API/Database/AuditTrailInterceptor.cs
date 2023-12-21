@@ -8,6 +8,11 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
 {
     private readonly HashSet<Type> _auditedEntityTypes = [typeof(Product), typeof(Category)];
 
+    private readonly Dictionary<Type, HashSet<string>> _ignoredProperties = new()
+    {
+        { typeof(Category), new HashSet<string> { nameof(Category.Slug), nameof(Category.Name) } }
+    };
+
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
         var entries = GetAuditableEntries(eventData);
@@ -23,8 +28,8 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
     }
 
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
-        DbContextEventData eventData, 
-        InterceptionResult<int> result, 
+        DbContextEventData eventData,
+        InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
     {
         var entries = GetAuditableEntries(eventData);
@@ -42,7 +47,7 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-    private static AuditTrail CreateAuditLog(EntityEntry entry, string? userId)
+    private AuditTrail CreateAuditLog(EntityEntry entry, string? userId)
     {
         string oldValue = string.Empty;
         string newValue = string.Empty;
@@ -61,16 +66,20 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
                 break;
         }
 
-        var modifiedProperties = entry.State == EntityState.Modified    
+        var entityType = entry.Entity.GetType();
+
+        var propertiesToIgnore = _ignoredProperties.TryGetValue(entityType, out HashSet<string>? value) ? value : [];
+
+        var modifiedProperties = entry.State == EntityState.Modified
             ? string.Join(",", entry.Properties
-                                    .Where(p => p.IsModified)
-                                    .Select(p => p.Metadata.Name)) 
+                                    .Where(p => p.IsModified && !propertiesToIgnore.TryGetValue(p.Metadata.Name, out var _))
+                                    .Select(p => p.Metadata.Name))
             : string.Empty;
 
         return new AuditTrail
         {
             EntityId = entry.State == EntityState.Modified || entry.State == EntityState.Deleted ? GetEntityId(entry) : null,
-            EntityType = entry.Entity.GetType().Name,
+            EntityType = entityType.Name,
             Action = entry.State switch { EntityState.Added => "Create", EntityState.Modified => "Update", EntityState.Deleted => "Delete", _ => "Unknown" },
             OldValue = oldValue,
             NewValue = newValue,
@@ -89,14 +98,31 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
                     e.State == EntityState.Added ||
                     e.State == EntityState.Modified ||
                     e.State == EntityState.Deleted)
+                .Where(e => !AllChangesIgnored(e))
             .ToList() ?? Enumerable.Empty<EntityEntry>();
     }
 
     private static string SerializeEntity(object entity) => JsonSerializer.Serialize(entity);
 
-    private static string SerializeProperties(EntityEntry entry, bool serializeNewValues)
+    private bool AllChangesIgnored(EntityEntry entry)
     {
+        var entityType = entry.Entity.GetType();
+        var propertiesToIgnore = _ignoredProperties.TryGetValue(entityType, out HashSet<string>? value) ? value : [];
+
+        return entry.State == EntityState.Modified &&
+               entry.Properties
+               .Where(p => p.IsModified)
+               .All(p => propertiesToIgnore.Contains(p.Metadata.Name));
+    }
+
+    private string SerializeProperties(EntityEntry entry, bool serializeNewValues)
+    {
+        var entityType = entry.Entity.GetType();
+
+        var propertiesToIgnore = _ignoredProperties.ContainsKey(entityType) ? _ignoredProperties[entityType] : [];
+
         var properties = entry.Properties
+            .Where(p => !propertiesToIgnore.Contains(p.Metadata.Name))
             .ToDictionary(p => p.Metadata.Name,
                           p => serializeNewValues ? p.CurrentValue : p.OriginalValue);
 

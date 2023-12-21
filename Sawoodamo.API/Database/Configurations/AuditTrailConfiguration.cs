@@ -13,5 +13,6 @@ public class AuditTrailConfiguration : IEntityTypeConfiguration<AuditTrail>
         builder.Property(x => x.EntityId).HasMaxLength(Constants.Other.IdMaxLength).IsRequired(false);
 
         builder.HasIndex(x => x.EntityType);
+        builder.HasIndex(x => x.Action);
     }
 }

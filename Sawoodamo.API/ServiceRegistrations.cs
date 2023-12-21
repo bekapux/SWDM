@@ -65,8 +65,6 @@ public static class ServiceRegistrations
 
     private static void ConfigureDatabaseWithAuditTrails(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<AuditTrailInterceptor>();
-
         services.AddDbContext<SawoodamoDbContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("Default"),

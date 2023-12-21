@@ -129,6 +129,8 @@ namespace Sawoodamo.API.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Action");
+
                     b.HasIndex("EntityType");
 
                     b.ToTable("AuditTrails");
@@ -522,8 +524,8 @@ namespace Sawoodamo.API.Database.Migrations
                         {
                             Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2db96d0c-40aa-43f0-b2cd-5db58fcf65b8",
-                            DateRegistered = new DateTime(2023, 12, 21, 16, 12, 59, 257, DateTimeKind.Utc).AddTicks(6309),
+                            ConcurrencyStamp = "684e9c7b-b808-4e8b-9707-b4187fa5b0cd",
+                            DateRegistered = new DateTime(2023, 12, 21, 18, 27, 46, 328, DateTimeKind.Utc).AddTicks(5332),
                             Email = "beka.pukhashvili@gmail.com",
                             EmailConfirmed = true,
                             Firstname = "Beka",
@@ -534,10 +536,10 @@ namespace Sawoodamo.API.Database.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "BEKA.PUKHASHVILI@GMAIL.COM",
                             NormalizedUserName = "BEKA.PUKHASHVILI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJhmzEUI3w+ipiQzFl4Jc7pSoSf4nSyKlbUjknz8dKCue72eJp7E4DYrHXPdxFj+Tw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDjRd5kNAWwZNiM/pwAP4g/snMH8QZdbTlWqviCJeYTwFKMlkZJi08Fip8JLVfVpOQ==",
                             PhoneNumber = "551345679",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c64001fa-dcf2-44fb-8d91-9cef8b7201ed",
+                            SecurityStamp = "a9075b22-cc1e-4434-8c98-36a4549cb2ee",
                             TwoFactorEnabled = false,
                             UserName = "beka.pukhashvili"
                         });
