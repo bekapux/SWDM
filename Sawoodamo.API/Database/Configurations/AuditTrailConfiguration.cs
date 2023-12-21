@@ -10,7 +10,7 @@ public class AuditTrailConfiguration : IEntityTypeConfiguration<AuditTrail>
         //builder.Property(x => x.UserId).HasMaxLength(Constants.Other.IdMaxLength).IsRequired(false);
         builder.Property(x => x.Timestamp).HasMaxLength(Constants.AuditTrails.TimeStampMaxLength).IsRequired();
         builder.Property(x => x.Action).HasMaxLength(Constants.AuditTrails.OperationTypeMaxLength).IsRequired();
-        builder.Property(x => x.EntityId).HasMaxLength(Constants.Other.IdMaxLength).IsRequired();
+        builder.Property(x => x.EntityId).HasMaxLength(Constants.Other.IdMaxLength).IsRequired(false);
 
         builder.HasIndex(x => x.EntityType);
     }

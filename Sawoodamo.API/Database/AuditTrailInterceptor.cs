@@ -19,7 +19,10 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
         return base.SavingChanges(eventData, result);
     }
 
-    public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
+    public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
+        DbContextEventData eventData, 
+        InterceptionResult<int> result, 
+        CancellationToken cancellationToken = default)
     {
         var entries = GetAuditableEntries(eventData);
         foreach (var entry in entries)
@@ -47,6 +50,15 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
             return JsonSerializer.Serialize(properties);
         }
 
+        string? GetEntityId(EntityEntry entry)
+        {
+            var keyName = entry.Metadata.FindPrimaryKey()?.Properties
+                            .Select(x => x.Name)
+                            .FirstOrDefault();
+
+            return keyName != null ? entry.Property(keyName).CurrentValue?.ToString() : "Unknown";
+        }
+
         var oldValue = entry.State == EntityState.Modified ? SerializeUpdatedProperties(entry) : string.Empty;
         var newValue = entry.State == EntityState.Added ? SerializeEntity(entry.Entity) : oldValue;
 
@@ -54,10 +66,9 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
                                                                                                 .Where(p => p.IsModified)
                                                                                                 .Select(p => p.Metadata.Name)) 
                                                                         : string.Empty;
-
         return new AuditTrail
         {
-            EntityId = entry.Entity.GetType().Name,
+            EntityId = entry.State == EntityState.Modified || entry.State == EntityState.Deleted ? GetEntityId(entry) : null,
             EntityType = entry.Entity.GetType().Name,
             Action = entry.State switch { EntityState.Added => "Create", EntityState.Modified => "Update", EntityState.Deleted => "Delete", _ => "Unknown" },
             OldValue = oldValue,
