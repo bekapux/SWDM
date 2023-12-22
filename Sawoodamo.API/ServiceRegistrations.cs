@@ -70,7 +70,17 @@ public static class ServiceRegistrations
             options.UseSqlServer(configuration.GetConnectionString("Default"),
                 b => b.MigrationsAssembly(typeof(SawoodamoDbContext).Assembly.FullName));
 
-            options.AddInterceptors(new AuditTrailInterceptor());
+
+            // Types that you want to Audit
+            HashSet<Type> auditTypes = [typeof(Product), typeof(Category)];
+
+            // properties of types that you want to ignore
+            //Dictionary<Type, HashSet<string>> ignoreEntityProperties = new()
+            //{
+            //    { typeof(Category), [nameof(Category.Order), nameof(Category.Name)] }
+            //};
+
+            options.AddInterceptors(new AuditTrailInterceptor(auditTypes, [] /*ignoreEntityProperties*/));
         });
     }
 

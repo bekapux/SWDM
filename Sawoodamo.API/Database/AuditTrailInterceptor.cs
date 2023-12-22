@@ -4,15 +4,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Sawoodamo.API.Database;
 
-public class AuditTrailInterceptor : SaveChangesInterceptor
+public class AuditTrailInterceptor(HashSet<Type> auditedEntityTypes, Dictionary<Type, HashSet<string>> ignoredProperties) : SaveChangesInterceptor
 {
-    private readonly HashSet<Type> _auditedEntityTypes = [typeof(Product), typeof(Category)];
-
-    private readonly Dictionary<Type, HashSet<string>> _ignoredProperties = new()
-    {
-        { typeof(Category), new HashSet<string> { nameof(Category.Slug), nameof(Category.Name) } }
-    };
-
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
         var entries = GetAuditableEntries(eventData);
@@ -68,7 +61,7 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
 
         var entityType = entry.Entity.GetType();
 
-        var propertiesToIgnore = _ignoredProperties.TryGetValue(entityType, out HashSet<string>? value) ? value : [];
+        var propertiesToIgnore = ignoredProperties.TryGetValue(entityType, out HashSet<string>? value) ? value : [];
 
         var modifiedProperties = entry.State == EntityState.Modified
             ? string.Join(",", entry.Properties
@@ -94,7 +87,7 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
         return eventData.Context?.ChangeTracker
             .Entries()
             .Where(e =>
-                _auditedEntityTypes.Contains(e.Entity.GetType()) &&
+                auditedEntityTypes.Contains(e.Entity.GetType()) &&
                     e.State == EntityState.Added ||
                     e.State == EntityState.Modified ||
                     e.State == EntityState.Deleted)
@@ -107,7 +100,7 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
     private bool AllChangesIgnored(EntityEntry entry)
     {
         var entityType = entry.Entity.GetType();
-        var propertiesToIgnore = _ignoredProperties.TryGetValue(entityType, out HashSet<string>? value) ? value : [];
+        var propertiesToIgnore = ignoredProperties.TryGetValue(entityType, out HashSet<string>? value) ? value : [];
 
         return entry.State == EntityState.Modified &&
                entry.Properties
@@ -119,7 +112,7 @@ public class AuditTrailInterceptor : SaveChangesInterceptor
     {
         var entityType = entry.Entity.GetType();
 
-        var propertiesToIgnore = _ignoredProperties.ContainsKey(entityType) ? _ignoredProperties[entityType] : [];
+        var propertiesToIgnore = ignoredProperties.ContainsKey(entityType) ? ignoredProperties[entityType] : [];
 
         var properties = entry.Properties
             .Where(p => !propertiesToIgnore.Contains(p.Metadata.Name))
