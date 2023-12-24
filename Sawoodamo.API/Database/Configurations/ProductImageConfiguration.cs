@@ -15,6 +15,8 @@ public class ProductImageConfiguration : IEntityTypeConfiguration<ProductImage>
 
         #endregion
 
+        builder.Property(x => x.Url).HasMaxLength(Constants.ProductImage.UrlMaxLength);
+        
         builder.HasIndex(x => x.ProductId);
     }
 }

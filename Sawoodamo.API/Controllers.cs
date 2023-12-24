@@ -1,4 +1,6 @@
-﻿using Sawoodamo.API.Features.Auth;
+﻿using Microsoft.AspNetCore.Mvc;
+using Sawoodamo.API.Features.Auth;
+using Sawoodamo.API.Features.ProductImages;
 using Sawoodamo.API.Features.Products;
 
 namespace Sawoodamo.API;
@@ -10,7 +12,7 @@ public static class Controllers
         app.MapGroup("api/category")
             .MapCategoryActions()
             .WithTags("Category");
-        
+
         app.MapGroup("api/product")
             .MapProductActions()
             .WithTags("Product");
@@ -63,11 +65,12 @@ public static class Controllers
             return Results.Ok(result);
         });
 
-        group.MapPost("by-category", async (GetProductsByCategorySlugQuery query, ISender sender, CancellationToken token) =>
-        {
-            var result = await sender.Send(query, token);
-            return Results.Ok(result);
-        });
+        group.MapPost("by-category",
+            async (GetProductsByCategorySlugQuery query, ISender sender, CancellationToken token) =>
+            {
+                var result = await sender.Send(query, token);
+                return Results.Ok(result);
+            });
 
         group.MapPost("", async (CreateProductCommand command, ISender sender) =>
         {
@@ -87,6 +90,13 @@ public static class Controllers
             return Results.Ok();
         });
 
+        group.MapPost("{id:int}/{order:int}",
+            async (ISender sender, IFormFile file, int id, int order, [FromQuery] bool? main) =>
+            {
+                await sender.Send(new CreateProductImageCommand(file, id, order, main));
+                return Results.Ok();
+            });
+
         return group;
     }
 
@@ -99,5 +109,4 @@ public static class Controllers
         });
         return group;
     }
-
 }

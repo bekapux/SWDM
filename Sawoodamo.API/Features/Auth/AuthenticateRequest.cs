@@ -7,20 +7,23 @@ namespace Sawoodamo.API.Features.Auth;
 
 public sealed record AuthenticateRequest(string Email, string Password) : IRequest<AuthResponse>;
 
-public sealed class AuthenticateRequestHandler(UserManager<User> _userManager, SignInManager<User> _signInManager, IConfiguration _configuration) : IRequestHandler<AuthenticateRequest, AuthResponse>
+public sealed class AuthenticateRequestHandler(UserManager<User> userManager, 
+    SignInManager<User> signInManager, 
+    IConfiguration configuration) : IRequestHandler<AuthenticateRequest, AuthResponse>
 {
     public async Task<AuthResponse> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email) ?? throw new NotFoundException($"User with mail '{request.Email}' was not found.", request.Email);
+        var user = await userManager.FindByEmailAsync(request.Email) ?? 
+                   throw new NotFoundException($"User with mail '{request.Email}' was not found.", request.Email);
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+        var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
         if (result.Succeeded != true)
         {
             throw new Exception($"Credentials for '{request.Email} aren't valid'.");
         }
 
-        JwtSecurityToken jwtSecurityToken = GenerateToken(user);
+        var jwtSecurityToken = GenerateToken(user);
 
         var response = new AuthResponse(user.Id, request.Email, new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken));
 
@@ -47,15 +50,15 @@ public sealed class AuthenticateRequestHandler(UserManager<User> _userManager, S
         //.Union(roleClaims);
         #endregion
 
-        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JwtSettings:Key").Value!));
+        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("JwtSettings:Key").Value!));
 
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
         var jwtSecurityToken = new JwtSecurityToken(
-           issuer: _configuration["JwtSettings:Issuer"],
-           audience: _configuration["JwtSettings:Audience"],
+           issuer: configuration["JwtSettings:Issuer"],
+           audience: configuration["JwtSettings:Audience"],
            claims: claims,
-           expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["JwtSettings:DurationInMinutes"])),
+           expires: DateTime.Now.AddMinutes(Convert.ToDouble(configuration["JwtSettings:DurationInMinutes"])),
            signingCredentials: signingCredentials);
 
         return jwtSecurityToken;

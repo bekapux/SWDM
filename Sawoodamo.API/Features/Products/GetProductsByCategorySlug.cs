@@ -30,7 +30,7 @@ public sealed class GetProductsByCategorySlugQueryHandler(SawoodamoDbContext con
                         Name = productCategory.Product!.Name,
                         Order = productCategory.Product.Order,
                         ShortDescription = productCategory.Product.ShortDescription,
-                        Base64Value = productCategory.Product.ProductImages?.FirstOrDefault(x => x.IsMainImage)?.Base64Value
+                        Base64Value = productCategory.Product.ProductImages?.FirstOrDefault(x => x.IsMainImage)?.Url
                     },
                 cancellationToken: cancellationToken);
 

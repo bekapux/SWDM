@@ -41,6 +41,11 @@ public static class Constants
         public const int FullDescriptionMaxLength = 1000;
     }
 
+    public static class ProductImage
+    {
+        public const int UrlMaxLength = 200;
+    }
+
     public static class Category
     {
         public const int NameMaxLength = 50;

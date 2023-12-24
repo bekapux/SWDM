@@ -258,7 +258,11 @@ namespace Sawoodamo.API.Database.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DateRegistered", "Email", "EmailConfirmed", "Firstname", "IsActive", "IsAdmin", "IsDeleted", "Lastname", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f", 0, "684e9c7b-b808-4e8b-9707-b4187fa5b0cd", new DateTime(2023, 12, 21, 18, 27, 46, 328, DateTimeKind.Utc).AddTicks(5332), "beka.pukhashvili@gmail.com", true, "Beka", true, true, false, "Pukhashvili", true, null, "BEKA.PUKHASHVILI@GMAIL.COM", "BEKA.PUKHASHVILI", "AQAAAAIAAYagAAAAEDjRd5kNAWwZNiM/pwAP4g/snMH8QZdbTlWqviCJeYTwFKMlkZJi08Fip8JLVfVpOQ==", "551345679", false, "a9075b22-cc1e-4434-8c98-36a4549cb2ee", false, "beka.pukhashvili" });
+                values: new object[,]
+                {
+                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a", 0, "4eab4695-b21c-40c8-8652-3c3755cb24a0", new DateTime(2023, 12, 24, 9, 56, 6, 665, DateTimeKind.Utc).AddTicks(8320), "string", true, "string", true, true, false, "string", true, null, "STRING", "STRING", "AQAAAAIAAYagAAAAEB14PNqTP1ggrx0asf8yU5FDnvxSX4wxh4bs05SBXDMuwT1sSo0kgBFbUngYH3MJug==", "551345679", false, "48b655eb-ead4-4e23-b859-1eddfc4c9f72", false, "string" },
+                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f", 0, "3e9423e9-0bb7-41fe-a400-ac3f21016126", new DateTime(2023, 12, 24, 9, 56, 6, 622, DateTimeKind.Utc).AddTicks(9890), "beka.pukhashvili@gmail.com", true, "Beka", true, true, false, "Pukhashvili", true, null, "BEKA.PUKHASHVILI@GMAIL.COM", "BEKA.PUKHASHVILI", "AQAAAAIAAYagAAAAEKJPF9sAedSvC5F+oFSgQ6cj7k+I20w5Ub1faSeRvf37IO+2OMkZ521Ws8zR3ujfKg==", "551345679", false, "15854079-11d3-4086-91e9-86565e1250b8", false, "beka.pukhashvili" }
+                });
 
             migrationBuilder.InsertData(
                 table: "ProductCategories",

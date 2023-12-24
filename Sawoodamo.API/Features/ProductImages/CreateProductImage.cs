@@ -1,8 +1,6 @@
-﻿using Sawoodamo.API.Services.Abstractions;
+﻿namespace Sawoodamo.API.Features.ProductImages;
 
-namespace Sawoodamo.API.Features.ProductImages;
-
-public sealed record CreateProductImageCommand(int? ProductId, int OrderId, bool? IsMainImage, int? Order, [Base64String] string Base64Value) : IRequest;
+public sealed record CreateProductImageCommand(IFormFile File, int? ProductId, int? Order, bool? IsMainImage = false) : IRequest;
 
 public sealed class CreateProductImageCommandValidator : AbstractValidator<CreateProductImageCommand>
 {
@@ -22,18 +20,22 @@ public sealed class CreateProductImageCommandValidator : AbstractValidator<Creat
                 .WithErrorCode("ProductExists");
 
         RuleFor(x => x.Order)
-            .Must(order => order is null || order > 0)
+            .Must(order => order is null or > 0)
                 .WithMessage("Invalid order");
     }
 }
 
-public sealed class CreateProductImageCommandHandler(SawoodamoDbContext context, ISessionService sessionService) : IRequestHandler<CreateProductImageCommand>
+public sealed class CreateProductImageCommandHandler(SawoodamoDbContext context, IFileService fileService) : IRequestHandler<CreateProductImageCommand>
 {
     public async Task Handle(CreateProductImageCommand request, CancellationToken cancellationToken)
     {
+        await using var stream = request.File.OpenReadStream();
+
+        var url = await fileService.CreateFile(Guid.NewGuid().ToString(), stream);
+        
         var image = new ProductImage
         {
-            Base64Value = request.Base64Value,
+            Url = url,
             IsActive = true,
             IsDeleted = false,
             IsMainImage = request.IsMainImage ?? false,

@@ -18,7 +18,7 @@ public sealed class GetProductBySlugQueryHandler(SawoodamoDbContext context) : I
                 ProductImages = x.ProductImages!.Select(x => new ProductImageDto
                 {
                     Id = x.Id,
-                    Base64Value = x.Base64Value,
+                    Base64Value = x.Url,
                     Order = x.Order
                 }),
                 ShortDescription = x.ShortDescription,

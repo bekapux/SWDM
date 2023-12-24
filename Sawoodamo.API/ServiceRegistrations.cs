@@ -26,6 +26,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using Amazon;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Sawoodamo.API;
@@ -55,10 +56,13 @@ public static class ServiceRegistrations
             .AddDefaultTokenProviders();
 
         services.AddScoped<ISessionService, SessionService>();
+        services.AddScoped<IFileService, FileService>();
 
         services.ConfigureDatabaseWithAuditTrails(configuration);
 
         services.AddAuthentication(configuration);
+        
+        services.ConfigureAWSS3(configuration);
 
         return services;
     }
@@ -83,8 +87,20 @@ public static class ServiceRegistrations
             options.AddInterceptors(new AuditTrailInterceptor(auditTypes, [] /*ignoreEntityProperties*/));
         });
     }
+    
+    private static void ConfigureAWSS3(this IServiceCollection services, IConfiguration configuration)
+    {
+        var accessKey = configuration.GetSection("S3:Key").Value;
+        var roleSecret = configuration.GetSection("S3:Secret").Value;
 
-    public static void AddSwaggerDoc(this IServiceCollection services)
+        var awsOptions = new AmazonS3Config
+        {
+            RegionEndpoint = RegionEndpoint.EUCentral1,
+        };
+        services.AddSingleton<IAmazonS3>(sp => new AmazonS3Client(accessKey, roleSecret, awsOptions));
+    }
+
+    private static void AddSwaggerDoc(this IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
         {
@@ -127,7 +143,7 @@ public static class ServiceRegistrations
         });
     }
 
-    public static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+    private static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(options =>
         {
@@ -150,7 +166,7 @@ public static class ServiceRegistrations
         });
     }
 
-    public static void AddValidatorsFromAssemblyByOrder(this IServiceCollection services, Assembly assembly)
+    private static void AddValidatorsFromAssemblyByOrder(this IServiceCollection services, Assembly assembly)
     {
         var validators = AssemblyScanner.FindValidatorsInAssembly(assembly, false)
             .Select(v => new

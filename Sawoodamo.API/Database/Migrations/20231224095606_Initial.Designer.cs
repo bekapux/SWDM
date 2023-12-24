@@ -12,7 +12,7 @@ using Sawoodamo.API.Database;
 namespace Sawoodamo.API.Database.Migrations
 {
     [DbContext(typeof(SawoodamoDbContext))]
-    [Migration("20231221182746_Initial")]
+    [Migration("20231224095606_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -527,8 +527,8 @@ namespace Sawoodamo.API.Database.Migrations
                         {
                             Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "684e9c7b-b808-4e8b-9707-b4187fa5b0cd",
-                            DateRegistered = new DateTime(2023, 12, 21, 18, 27, 46, 328, DateTimeKind.Utc).AddTicks(5332),
+                            ConcurrencyStamp = "3e9423e9-0bb7-41fe-a400-ac3f21016126",
+                            DateRegistered = new DateTime(2023, 12, 24, 9, 56, 6, 622, DateTimeKind.Utc).AddTicks(9890),
                             Email = "beka.pukhashvili@gmail.com",
                             EmailConfirmed = true,
                             Firstname = "Beka",
@@ -539,12 +539,35 @@ namespace Sawoodamo.API.Database.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "BEKA.PUKHASHVILI@GMAIL.COM",
                             NormalizedUserName = "BEKA.PUKHASHVILI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDjRd5kNAWwZNiM/pwAP4g/snMH8QZdbTlWqviCJeYTwFKMlkZJi08Fip8JLVfVpOQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKJPF9sAedSvC5F+oFSgQ6cj7k+I20w5Ub1faSeRvf37IO+2OMkZ521Ws8zR3ujfKg==",
                             PhoneNumber = "551345679",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a9075b22-cc1e-4434-8c98-36a4549cb2ee",
+                            SecurityStamp = "15854079-11d3-4086-91e9-86565e1250b8",
                             TwoFactorEnabled = false,
                             UserName = "beka.pukhashvili"
+                        },
+                        new
+                        {
+                            Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4eab4695-b21c-40c8-8652-3c3755cb24a0",
+                            DateRegistered = new DateTime(2023, 12, 24, 9, 56, 6, 665, DateTimeKind.Utc).AddTicks(8320),
+                            Email = "string",
+                            EmailConfirmed = true,
+                            Firstname = "string",
+                            IsActive = true,
+                            IsAdmin = true,
+                            IsDeleted = false,
+                            Lastname = "string",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "STRING",
+                            NormalizedUserName = "STRING",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB14PNqTP1ggrx0asf8yU5FDnvxSX4wxh4bs05SBXDMuwT1sSo0kgBFbUngYH3MJug==",
+                            PhoneNumber = "551345679",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "48b655eb-ead4-4e23-b859-1eddfc4c9f72",
+                            TwoFactorEnabled = false,
+                            UserName = "string"
                         });
                 });
 

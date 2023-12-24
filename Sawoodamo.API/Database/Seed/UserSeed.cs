@@ -27,6 +27,25 @@ public class UserSeed : IEntityTypeConfiguration<User>
                 LockoutEnabled = true,
                 PasswordHash = hasher.HashPassword(null!, "asdASD123!"),
                 NormalizedUserName = "BEKA.PUKHASHVILI",
+            },           new User
+            {
+                Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a",
+                Firstname = "string",
+                Lastname = "string",
+                Email = "string",
+                NormalizedEmail = "STRING",
+                IsDeleted = false,
+                IsAdmin = true,
+                DateRegistered = DateTime.UtcNow,
+                EmailConfirmed = true,
+                UserName = "string",
+                PhoneNumber = "551345679",
+                TwoFactorEnabled = false,
+                AccessFailedCount = 0,
+                IsActive = true,
+                LockoutEnabled = true,
+                PasswordHash = hasher.HashPassword(null!, "string"),
+                NormalizedUserName = "STRING",
             }
         );
     }

@@ -2,7 +2,7 @@
 
 public sealed class ProductImage : BaseDomainEntity<int>
 {
-    public string Base64Value { get; set; } = String.Empty;
+    public string Url { get; init; } = String.Empty;
     public int ProductId { get; set; }
     public bool IsMainImage { get; set; }
     public int? Order { get; set; }
