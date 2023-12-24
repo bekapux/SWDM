@@ -1,7 +1,9 @@
 ﻿namespace Sawoodamo.API.Services;
 
-public class FileService(IAmazonS3 s3Client, string bucketName) : IFileService
+public class FileService(IAmazonS3 s3Client, IConfiguration configuration) : IFileService
 {
+    private readonly string bucketName = configuration.GetSection("S3:Bucketname").Value!;
+
     public async Task<string> CreateFile(string filePath, Stream fileContent)
     {
         var request = new PutObjectRequest
@@ -13,7 +15,7 @@ public class FileService(IAmazonS3 s3Client, string bucketName) : IFileService
 
         await s3Client.PutObjectAsync(request);
         
-        return $"https://sawoodamo.s3.{s3Client.Config.RegionEndpoint}.amazonaws.com/{Uri.EscapeDataString(filePath)}";
+        return $"https://{bucketName}.s3.{s3Client.Config.RegionEndpoint.SystemName}.amazonaws.com/{Uri.EscapeDataString(filePath)}";
     }
 
     public async Task DeleteFile(string filePath)

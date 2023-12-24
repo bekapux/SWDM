@@ -90,7 +90,7 @@ public static class ServiceRegistrations
     
     private static void ConfigureAWSS3(this IServiceCollection services, IConfiguration configuration)
     {
-        var accessKey = configuration.GetSection("S3:Key").Value;
+        var accessKey = configuration.GetSection("S3:AccessKey").Value;
         var roleSecret = configuration.GetSection("S3:Secret").Value;
 
         var awsOptions = new AmazonS3Config

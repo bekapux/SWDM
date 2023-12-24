@@ -95,7 +95,7 @@ public static class Controllers
             {
                 await sender.Send(new CreateProductImageCommand(file, id, order, main));
                 return Results.Ok();
-            });
+            }).DisableAntiforgery();
 
         return group;
     }
