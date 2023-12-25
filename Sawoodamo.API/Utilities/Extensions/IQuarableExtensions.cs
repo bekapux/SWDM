@@ -14,11 +14,13 @@ public static class IQuarableExtensions
         Func<T, TResult> mapper,
         CancellationToken cancellationToken)
     {
-        var totalRecords = await query.CountAsync(cancellationToken);
-        var totalPages = (int)Math.Ceiling((double)totalRecords / itemsPerPage);
-        var items = await query.Skip((pageNumber - 1) * itemsPerPage).Take(itemsPerPage).ToListAsync(cancellationToken);
+        int totalRecords = await query.CountAsync(cancellationToken);
+        int totalPages = (int)Math.Ceiling((double)totalRecords / itemsPerPage);
+        IQueryable<T> items = query
+            .Skip((pageNumber - 1) * itemsPerPage)
+            .Take(itemsPerPage);
 
-        var resultList = items.Select(mapper).ToList();
+        var resultList = await items.Select(x => mapper(x)).ToListAsync(cancellationToken: cancellationToken);
 
         return new PaginatedListResult<TResult>
         {

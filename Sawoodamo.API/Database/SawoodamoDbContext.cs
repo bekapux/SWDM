@@ -24,4 +24,5 @@ public class SawoodamoDbContext(DbContextOptions options) : IdentityUserContext<
     public DbSet<CartItem> CartItems { get; set; }
     public DbSet<ProductImage> ProductImages { get; set; }
     public DbSet<AuditTrail> AuditTrails { get; set; }
+    public DbSet<ProductSpec> ProductSpecs { get; set; }
 }

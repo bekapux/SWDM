@@ -2,7 +2,7 @@
 
 namespace Sawoodamo.API.Database.Seed;
 
-public class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
+public sealed class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
 {
     public void Configure(EntityTypeBuilder<ProductImage> builder)
     {

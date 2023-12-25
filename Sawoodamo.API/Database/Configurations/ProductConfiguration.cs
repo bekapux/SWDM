@@ -2,7 +2,7 @@
 
 namespace Sawoodamo.API.Database.Configurations;
 
-public class ProductConfiguration : IEntityTypeConfiguration<Product>
+public sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {

@@ -1,6 +1,6 @@
 ﻿namespace Sawoodamo.API.Database.Entities;
 
-public class AuditTrail
+public sealed class AuditTrail
 {
     public int Id { get; set; }
     public string? EntityId { get; set; }

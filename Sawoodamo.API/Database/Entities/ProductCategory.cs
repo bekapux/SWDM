@@ -1,6 +1,6 @@
 ﻿namespace Sawoodamo.API.Database.Entities;
 
-public class ProductCategory
+public sealed class ProductCategory
 {
     public int CategoryId { get; set; }
     public int ProductId { get; set; }

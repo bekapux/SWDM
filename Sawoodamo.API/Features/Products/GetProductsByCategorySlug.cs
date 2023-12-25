@@ -19,18 +19,19 @@ public sealed class GetProductsByCategorySlugQueryHandler(SawoodamoDbContext con
         var productsFinal = await context.ProductCategories
             .Include(x => x.Product)
             .Include(x => x.Category)
+            .Include(x=> x.Product!.ProductImages)
             .Where(x => x.CategoryId == category.Id)
             .ToPaginatedListAsync(
                 pageNumber: request.PageNumber,
                 itemsPerPage: request.ItemsPerPage,
                 mapper: productCategory => new ProductListItemDTO
                     {
-                        Slug = productCategory.Product.Slug ?? String.Empty,
-                        FullDescription = productCategory.Product?.FullDescription,
-                        Name = productCategory.Product!.Name,
-                        Order = productCategory.Product.Order,
-                        ShortDescription = productCategory.Product.ShortDescription,
-                        Url = productCategory.Product.ProductImages?.FirstOrDefault(x => x.IsMainImage)?.Url
+                        Slug = productCategory?.Product?.Slug ?? String.Empty,
+                        FullDescription = productCategory?.Product?.FullDescription,
+                        Name = productCategory?.Product?.Name,
+                        Order = productCategory?.Product?.Order,
+                        ShortDescription = productCategory?.Product?.ShortDescription,
+                        MainImageUrl = productCategory?.Product?.ProductImages?.FirstOrDefault(x => x.IsMainImage)?.Url ?? productCategory?.Product?.ProductImages?.FirstOrDefault()?.Url
                     },
                 cancellationToken: cancellationToken);
 
@@ -40,10 +41,10 @@ public sealed class GetProductsByCategorySlugQueryHandler(SawoodamoDbContext con
 
 public sealed record ProductListItemDTO
 {
-    public string Name { get; set; } = String.Empty;
-    public string ShortDescription { get; set; } = String.Empty;
+    public string? Name { get; set; }
+    public string? ShortDescription { get; set; }
     public string? FullDescription { get; set; }
-    public string Slug { get; set; } = String.Empty;
+    public string? Slug { get; set; }
     public int? Order { get; set; }
-    public string? Url { get; set; } = String.Empty;
+    public string? MainImageUrl { get; set; }
 }

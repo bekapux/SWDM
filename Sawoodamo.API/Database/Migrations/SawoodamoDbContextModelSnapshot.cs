@@ -417,6 +417,71 @@ namespace Sawoodamo.API.Database.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Sawoodamo.API.Database.Entities.ProductSpec", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool?>("IsActive")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SpecName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("SpecValue")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductSpec");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDeleted = false,
+                            ProductId = 1,
+                            SpecName = "Weight",
+                            SpecValue = "221g"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            ProductId = 1,
+                            SpecName = "Display Size",
+                            SpecValue = "6.7 inches"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsDeleted = false,
+                            ProductId = 1,
+                            SpecName = "OS",
+                            SpecValue = "iOS 17"
+                        });
+                });
+
             modelBuilder.Entity("Sawoodamo.API.Database.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -525,8 +590,8 @@ namespace Sawoodamo.API.Database.Migrations
                         {
                             Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5a893288-dcc2-4b46-94da-6cd01cf258e3",
-                            DateRegistered = new DateTime(2023, 12, 24, 18, 44, 14, 956, DateTimeKind.Utc).AddTicks(2440),
+                            ConcurrencyStamp = "a0df669f-7035-4b6c-82a0-5c726ae040f7",
+                            DateRegistered = new DateTime(2023, 12, 25, 15, 55, 51, 703, DateTimeKind.Utc).AddTicks(7090),
                             Email = "beka.pukhashvili@gmail.com",
                             EmailConfirmed = true,
                             Firstname = "Beka",
@@ -537,10 +602,10 @@ namespace Sawoodamo.API.Database.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "BEKA.PUKHASHVILI@GMAIL.COM",
                             NormalizedUserName = "BEKA.PUKHASHVILI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFZv3RDOLtd4UvO0uilaiYuFD0RjVEmAlkSmF3YssMrjIUlJdOUJsfRIs/vjgrTdfA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO3jGAdV4e0Em3pcVP1akY73K6MP+8D7RxxTzRShjX5w87X7vVrWc8QqTnlqlgqP5A==",
                             PhoneNumber = "551345679",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c38e0265-febb-492c-9baa-52f002da66e3",
+                            SecurityStamp = "eb3f3232-f4c3-400c-b868-15bbcb5589dd",
                             TwoFactorEnabled = false,
                             UserName = "beka.pukhashvili"
                         },
@@ -548,8 +613,8 @@ namespace Sawoodamo.API.Database.Migrations
                         {
                             Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e1d72161-551c-48b5-ac98-53172d4e258c",
-                            DateRegistered = new DateTime(2023, 12, 24, 18, 44, 15, 3, DateTimeKind.Utc).AddTicks(936),
+                            ConcurrencyStamp = "f1342cc2-4490-40f1-8028-a69b31361305",
+                            DateRegistered = new DateTime(2023, 12, 25, 15, 55, 51, 747, DateTimeKind.Utc).AddTicks(9227),
                             Email = "string",
                             EmailConfirmed = true,
                             Firstname = "string",
@@ -560,10 +625,10 @@ namespace Sawoodamo.API.Database.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "STRING",
                             NormalizedUserName = "STRING",
-                            PasswordHash = "AQAAAAIAAYagAAAAENvESPn4JqvizIUoGkfXCjtQRXot7MWlUgZfZpeKSPexANrPRVTxJjiSOv1skp+prw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOD7Dl95t9xbQ53Xbg3ufxd123gm8j1OZbuNgFG6qsDSA9Qh+PnLF1vOrNgkvufEZQ==",
                             PhoneNumber = "551345679",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c22b42b7-7f73-4373-bfeb-6a5b44bc4dc9",
+                            SecurityStamp = "0a6d84ef-3293-4c15-8371-3932aff02a40",
                             TwoFactorEnabled = false,
                             UserName = "string"
                         });
@@ -645,6 +710,15 @@ namespace Sawoodamo.API.Database.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Sawoodamo.API.Database.Entities.ProductSpec", b =>
+                {
+                    b.HasOne("Sawoodamo.API.Database.Entities.Product", null)
+                        .WithMany("ProductSpecs")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Sawoodamo.API.Database.Entities.Category", b =>
                 {
                     b.Navigation("ProductCategories");
@@ -655,6 +729,8 @@ namespace Sawoodamo.API.Database.Migrations
                     b.Navigation("ProductCategories");
 
                     b.Navigation("ProductImages");
+
+                    b.Navigation("ProductSpecs");
                 });
 #pragma warning restore 612, 618
         }

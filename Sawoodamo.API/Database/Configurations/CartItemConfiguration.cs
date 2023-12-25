@@ -2,7 +2,7 @@
 
 namespace Sawoodamo.API.Database.Configurations;
 
-public class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
+public sealed class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
 {
     public void Configure(EntityTypeBuilder<CartItem> builder)
     {

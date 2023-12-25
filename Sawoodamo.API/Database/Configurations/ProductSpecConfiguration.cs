@@ -2,9 +2,9 @@
 
 namespace Sawoodamo.API.Database.Configurations;
 
-public sealed class CategoryConfiguration : IEntityTypeConfiguration<Category>
+public sealed class ProductSpecConfiguration : IEntityTypeConfiguration<ProductSpec>
 {
-    public void Configure(EntityTypeBuilder<Category> builder)
+    public void Configure(EntityTypeBuilder<ProductSpec> builder)
     {
         #region Defaults
 
@@ -15,10 +15,9 @@ public sealed class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
         #endregion
 
-        builder.HasIndex(x => x.Slug).IsUnique();
-        builder.HasIndex(x => x.Name).IsUnique();
-        builder.Property(x => x.Name).HasMaxLength(Constants.Category.NameMaxLength);
+        builder.Property(x=> x.SpecValue).HasMaxLength(Constants.ProductSpec.SpecValueMaxLength).IsRequired();
+        builder.Property(x=> x.SpecName).HasMaxLength(Constants.ProductSpec.SpecNameMaxLength).IsRequired();
 
-        builder.HasQueryFilter(x => x.IsDeleted == false);
+        builder.HasIndex(x => x.ProductId);
     }
 }

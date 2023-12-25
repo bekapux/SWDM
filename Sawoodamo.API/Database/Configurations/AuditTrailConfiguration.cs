@@ -2,7 +2,7 @@
 
 namespace Sawoodamo.API.Database.Configurations;
 
-public class AuditTrailConfiguration : IEntityTypeConfiguration<AuditTrail>
+public sealed class AuditTrailConfiguration : IEntityTypeConfiguration<AuditTrail>
 {
     public void Configure(EntityTypeBuilder<AuditTrail> builder)
     {

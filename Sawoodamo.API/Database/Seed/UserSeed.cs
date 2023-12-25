@@ -2,7 +2,7 @@
 
 namespace Sawoodamo.API.Database.Seed;
 
-public class UserSeed : IEntityTypeConfiguration<User>
+public sealed class UserSeed : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {

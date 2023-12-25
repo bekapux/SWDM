@@ -2,7 +2,7 @@
 
 namespace Sawoodamo.API.Database.Seed;
 
-public class ProductCategorySeed : IEntityTypeConfiguration<ProductCategory>
+public sealed class ProductCategorySeed : IEntityTypeConfiguration<ProductCategory>
 {
     public void Configure(EntityTypeBuilder<ProductCategory> builder)
     {

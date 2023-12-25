@@ -58,6 +58,12 @@ public static class Constants
         public const int MinLength = 1;
     }
 
+    public static class ProductSpec
+    {
+        public const int SpecNameMaxLength = 50;
+        public const int SpecValueMaxLength = 255;
+    }
+
     public static class AsyncValidatorErrorCodes
     {
         public const string DuplicateSlug = "DuplicateSlug";
