@@ -6,16 +6,11 @@ public sealed class DeleteProductCommandHandler(SawoodamoDbContext context) : IR
 {
     public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await context.Products
-            .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
+        var affectedRows = await context.Products
+            .Where(x => x.Id == request.ProductId)
+            .ExecuteUpdateAsync(x=> x.SetProperty(y=> y.IsDeleted, true), cancellationToken);
 
-        if (product is null || product.IsDeleted)
-        {
+        if (affectedRows is 0)
             throw new NotFoundException(nameof(Product), request.ProductId);
-        }
-
-        product.IsDeleted = true;
-
-        await context.SaveChangesAsync(cancellationToken);
     }
 }

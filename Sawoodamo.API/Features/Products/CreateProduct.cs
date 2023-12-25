@@ -18,12 +18,12 @@ public sealed class CreateProductCommandValidator : AbstractValidator<CreateProd
     {
         RuleFor(x => x.Order)
             .Must(order => order is null || order > 0)
-                .WithMessage("Invalid order");
+                .WithMessage(ErrorMessageGenerator.Invalid(nameof(Product.Order)));
 
         RuleFor(x => x.Name)
             .NotNull()
             .NotEmpty()
-                .WithMessage("Name is required")
+                .WithMessage(ErrorMessageGenerator.Required(nameof(Product.Name)))
             .MaximumLength(Constants.Product.NameMaxLength)
                 .WithMessage(ErrorMessageGenerator.Length(nameof(Product.Name), Constants.Product.NameMinLength, Constants.Product.NameMaxLength));
     }
@@ -38,7 +38,7 @@ public class CreateProductCommandHandler(SawoodamoDbContext context) : IRequestH
     {
         try
         {
-            var product = new Product()
+            var product = new Product
             {
                 Name = request.Name,
                 FullDescription = request.FullDescription,

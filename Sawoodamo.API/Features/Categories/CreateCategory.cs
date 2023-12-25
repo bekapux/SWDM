@@ -35,24 +35,16 @@ public sealed class CreateCategoryCommandAsyncValidator : AbstractValidator<Crea
     public CreateCategoryCommandAsyncValidator(SawoodamoDbContext context)
     {
         RuleFor(x => x.Name)
-            .MustAsync(async (name, cancellation) =>
-            {
-                var result = await context.Categories.FirstOrDefaultAsync(x => x.Name == name, cancellation);
-                return result is null;
-            })
-                .WithMessage("The name is already in use")
+            .MustAsync(async (name, cancellationToken) => !await context.Categories.AnyAsync(x => x.Name == name, cancellationToken))
+                .WithMessage(ErrorMessageGenerator.InUse(nameof(Category.Name)))
                 .WithErrorCode("DuplicateName")
         .DependentRules(() =>
-            {
-                RuleFor(x => x.Slug)
-                    .MustAsync(async (slug, cancellation) =>
-                    {
-                        var result = await context.Categories.FirstOrDefaultAsync(x => x.Slug == slug, cancellation);
-                        return result is null;
-                    })
-                        .WithMessage("The slug is already in use")
-                        .WithErrorCode("DuplicateSlug");
-            });
+        {
+            RuleFor(x => x.Slug)
+                .MustAsync(async (slug, cancellationToken) => !await context.Categories.AnyAsync(x => x.Slug == slug, cancellationToken))
+                    .WithMessage(ErrorMessageGenerator.InUse(nameof(Category.Slug)))
+                    .WithErrorCode("DuplicateSlug");
+        });
     }
 }
 

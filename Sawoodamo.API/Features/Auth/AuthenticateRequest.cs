@@ -65,4 +65,4 @@ public sealed class AuthenticateRequestHandler(UserManager<User> userManager,
     }
 }
 
-public sealed record AuthResponse(string Id, string Email, string Token);
+public sealed record AuthResponse(string UserId, string Email, string Token);

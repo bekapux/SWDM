@@ -166,6 +166,18 @@ public static class ServiceRegistrations
                 ValidAudience = configuration["JwtSettings:Audience"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!))
             };
+
+            o.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
+                {
+                    if (context.Request.Cookies.ContainsKey("authToken"))
+                    {
+                        context.Token = context.Request.Cookies["authToken"];
+                    }
+                    return Task.CompletedTask;
+                }
+            };
         });
     }
 
