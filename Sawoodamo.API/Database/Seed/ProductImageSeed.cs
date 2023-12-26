@@ -31,7 +31,7 @@ public sealed class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
             },
             new ProductImage
             {
-                Id = 2,
+                Id = 3,
                 ProductId = 1,
                 Order = 2,
                 IsMainImage = false,
@@ -42,7 +42,7 @@ public sealed class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
             },
             new ProductImage
             {
-                Id = 3,
+                Id = 4,
                 ProductId = 2,
                 Order = 1,
                 IsMainImage = true,
@@ -52,7 +52,7 @@ public sealed class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
             },
             new ProductImage
             {
-                Id = 4,
+                Id = 5,
                 ProductId = 2,
                 Order = 2,
                 IsMainImage = false,
