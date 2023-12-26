@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CardComponent } from '../card/card.component';
-import { ProductListItemDTO } from '../../models/product/product-list-item.tso';
+import { ProductListItemDTO } from '../../models/product/product-list-item.dto';
 
 @Component({
   selector: 'product-cards-container',

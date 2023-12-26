@@ -1,1 +1,3 @@
-<p>product works!</p>
+@if(productObs$ | async; as product){ 
+    {{product | json}}
+}
