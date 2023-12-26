@@ -9,7 +9,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+#if DEBUG
+app.UseCors("debug");
+#endif
 app.HandleExceptions();
 
 app.UseHttpsRedirection();

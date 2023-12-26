@@ -401,7 +401,7 @@ namespace Sawoodamo.API.Database.Migrations
                             IsMainImage = true,
                             Order = 1,
                             ProductId = 1,
-                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee"
+                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c"
                         },
                         new
                         {
@@ -411,7 +411,7 @@ namespace Sawoodamo.API.Database.Migrations
                             IsMainImage = false,
                             Order = 2,
                             ProductId = 1,
-                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee"
+                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c"
                         },
                         new
                         {
@@ -421,7 +421,7 @@ namespace Sawoodamo.API.Database.Migrations
                             IsMainImage = true,
                             Order = 1,
                             ProductId = 2,
-                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee"
+                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c"
                         },
                         new
                         {
@@ -431,7 +431,7 @@ namespace Sawoodamo.API.Database.Migrations
                             IsMainImage = false,
                             Order = 2,
                             ProductId = 2,
-                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee"
+                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c"
                         });
                 });
 
@@ -608,8 +608,8 @@ namespace Sawoodamo.API.Database.Migrations
                         {
                             Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "98a62fc1-9714-49cd-93a5-8c940b68048a",
-                            DateRegistered = new DateTime(2023, 12, 26, 14, 14, 16, 394, DateTimeKind.Utc).AddTicks(9375),
+                            ConcurrencyStamp = "d446118c-fd96-4d30-8057-35aab00347a6",
+                            DateRegistered = new DateTime(2023, 12, 26, 14, 49, 2, 122, DateTimeKind.Utc).AddTicks(5825),
                             Email = "beka.pukhashvili@gmail.com",
                             EmailConfirmed = true,
                             Firstname = "Beka",
@@ -620,10 +620,10 @@ namespace Sawoodamo.API.Database.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "BEKA.PUKHASHVILI@GMAIL.COM",
                             NormalizedUserName = "BEKA.PUKHASHVILI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDnFKPtgC+Uw12Wl27P1biPlHxlV6rf+3u7oI9ui/pdjle/jK5ZYHPDf2rw03x9ayw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAcp6Qsz41BYrRInyTo4QLDQlXOokNtFSt1Tm5IgWAwvdCZBLuO0k8BkQ5yHYXsOxA==",
                             PhoneNumber = "551345679",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8c55ea21-d54f-470d-bc4c-e748e264998c",
+                            SecurityStamp = "39115312-892d-44cb-bacd-97edae45a277",
                             TwoFactorEnabled = false,
                             UserName = "beka.pukhashvili"
                         },
@@ -631,8 +631,8 @@ namespace Sawoodamo.API.Database.Migrations
                         {
                             Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8efa01b3-f8b0-492b-b742-5845ce98c377",
-                            DateRegistered = new DateTime(2023, 12, 26, 14, 14, 16, 438, DateTimeKind.Utc).AddTicks(5442),
+                            ConcurrencyStamp = "933603b0-6bc0-4f2f-a2dd-58e9ab4a4300",
+                            DateRegistered = new DateTime(2023, 12, 26, 14, 49, 2, 164, DateTimeKind.Utc).AddTicks(9744),
                             Email = "string",
                             EmailConfirmed = true,
                             Firstname = "string",
@@ -643,10 +643,10 @@ namespace Sawoodamo.API.Database.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "STRING",
                             NormalizedUserName = "STRING",
-                            PasswordHash = "AQAAAAIAAYagAAAAELfWwXvVRkVNjkuOISt4ohQ0fK0a3mq3TanOc3j8IU+9JMCqYOlk5c92u5SLKRM+fg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELmswQYrrFJI3B5AqCkXjoBal7o6/KQUGa5tbiu8mwlw/gwSeTbEdUUXSwKgbjgn8g==",
                             PhoneNumber = "551345679",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "22c21710-7bdf-43e1-9158-3e8d2288ba15",
+                            SecurityStamp = "229b3e3a-1dd8-4f28-8453-487108ec75bc",
                             TwoFactorEnabled = false,
                             UserName = "string"
                         });

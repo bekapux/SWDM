@@ -51,7 +51,6 @@ public static class ServiceRegistrations
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
-
         services.AddHttpContextAccessor();
 
         services.AddIdentity<User, IdentityRole>()
@@ -66,6 +65,15 @@ public static class ServiceRegistrations
         services.AddAuthentication(configuration);
 
         services.ConfigureAWSS3(configuration);
+
+#if DEBUG
+        services.AddCors((o) => o.AddPolicy("debug", policy =>
+        {
+            policy.AllowAnyMethod()
+                .AllowAnyOrigin()
+                .AllowAnyHeader();
+        }));
+#endif
 
         return services;
     }

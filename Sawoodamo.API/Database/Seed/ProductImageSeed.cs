@@ -13,7 +13,7 @@ public sealed class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
                 ProductId = 1,
                 Order = 1,
                 IsMainImage = true,
-                Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee",
+                Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c",
                 IsActive = true,
                 IsDeleted = false,
 
@@ -24,7 +24,7 @@ public sealed class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
                 ProductId = 1,
                 Order = 2,
                 IsMainImage = false,
-                Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee",
+                Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c",
                 IsActive = true,
                 IsDeleted = false,
 
@@ -35,7 +35,7 @@ public sealed class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
                 ProductId = 2,
                 Order = 1,
                 IsMainImage = true,
-                Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee",
+                Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c",
                 IsActive = true,
                 IsDeleted = false,
 
@@ -46,7 +46,7 @@ public sealed class ProductImageSeed : IEntityTypeConfiguration<ProductImage>
                 ProductId = 2,
                 Order = 2,
                 IsMainImage = false,
-                Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee",
+                Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c",
                 IsActive = true,
                 IsDeleted = false,
             }

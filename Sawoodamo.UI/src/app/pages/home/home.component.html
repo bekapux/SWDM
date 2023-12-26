@@ -1,4 +1,7 @@
 <main-image></main-image>
-<product-cards-container [productList]="pinnedProducts" title="Products of the day">
+<product-cards-container [productList]="(pinnedProductsObservable | async)" title="Products of the day">
 </product-cards-container>
+
+<p>{{placeHolderObservable | async | json}}</p>
+
 <footer></footer>

@@ -286,8 +286,8 @@ namespace Sawoodamo.API.Database.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DateRegistered", "Email", "EmailConfirmed", "Firstname", "IsActive", "IsAdmin", "IsDeleted", "Lastname", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a", 0, "8efa01b3-f8b0-492b-b742-5845ce98c377", new DateTime(2023, 12, 26, 14, 14, 16, 438, DateTimeKind.Utc).AddTicks(5442), "string", true, "string", true, true, false, "string", true, null, "STRING", "STRING", "AQAAAAIAAYagAAAAELfWwXvVRkVNjkuOISt4ohQ0fK0a3mq3TanOc3j8IU+9JMCqYOlk5c92u5SLKRM+fg==", "551345679", false, "22c21710-7bdf-43e1-9158-3e8d2288ba15", false, "string" },
-                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f", 0, "98a62fc1-9714-49cd-93a5-8c940b68048a", new DateTime(2023, 12, 26, 14, 14, 16, 394, DateTimeKind.Utc).AddTicks(9375), "beka.pukhashvili@gmail.com", true, "Beka", true, true, false, "Pukhashvili", true, null, "BEKA.PUKHASHVILI@GMAIL.COM", "BEKA.PUKHASHVILI", "AQAAAAIAAYagAAAAEDnFKPtgC+Uw12Wl27P1biPlHxlV6rf+3u7oI9ui/pdjle/jK5ZYHPDf2rw03x9ayw==", "551345679", false, "8c55ea21-d54f-470d-bc4c-e748e264998c", false, "beka.pukhashvili" }
+                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a", 0, "933603b0-6bc0-4f2f-a2dd-58e9ab4a4300", new DateTime(2023, 12, 26, 14, 49, 2, 164, DateTimeKind.Utc).AddTicks(9744), "string", true, "string", true, true, false, "string", true, null, "STRING", "STRING", "AQAAAAIAAYagAAAAELmswQYrrFJI3B5AqCkXjoBal7o6/KQUGa5tbiu8mwlw/gwSeTbEdUUXSwKgbjgn8g==", "551345679", false, "229b3e3a-1dd8-4f28-8453-487108ec75bc", false, "string" },
+                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f", 0, "d446118c-fd96-4d30-8057-35aab00347a6", new DateTime(2023, 12, 26, 14, 49, 2, 122, DateTimeKind.Utc).AddTicks(5825), "beka.pukhashvili@gmail.com", true, "Beka", true, true, false, "Pukhashvili", true, null, "BEKA.PUKHASHVILI@GMAIL.COM", "BEKA.PUKHASHVILI", "AQAAAAIAAYagAAAAEAcp6Qsz41BYrRInyTo4QLDQlXOokNtFSt1Tm5IgWAwvdCZBLuO0k8BkQ5yHYXsOxA==", "551345679", false, "39115312-892d-44cb-bacd-97edae45a277", false, "beka.pukhashvili" }
                 });
 
             migrationBuilder.InsertData(
@@ -304,10 +304,10 @@ namespace Sawoodamo.API.Database.Migrations
                 columns: new[] { "Id", "IsActive", "IsMainImage", "Order", "ProductId", "Url" },
                 values: new object[,]
                 {
-                    { 1, true, true, 1, 1, "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee" },
-                    { 2, true, false, 2, 1, "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee" },
-                    { 3, true, true, 1, 2, "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee" },
-                    { 4, true, false, 2, 2, "https://sawoodamo.s3.eu-central-1.amazonaws.com/bde47de0-7671-4522-8edd-7140571543ee" }
+                    { 1, true, true, 1, 1, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" },
+                    { 2, true, false, 2, 1, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" },
+                    { 3, true, true, 1, 2, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" },
+                    { 4, true, false, 2, 2, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" }
                 });
 
             migrationBuilder.InsertData(

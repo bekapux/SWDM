@@ -10,5 +10,5 @@ import { ProductListItemDTO } from '../../models/product/product-list-item.tso';
 })
 export class ProductCardsContainerComponent {
   @Input() title: string | undefined;
-  @Input() productList: ProductListItemDTO[] = []
+  @Input() productList: ProductListItemDTO[] | null = []
 }
