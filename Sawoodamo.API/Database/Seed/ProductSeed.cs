@@ -17,6 +17,9 @@ public sealed class ProductSeed : IEntityTypeConfiguration<Product>
                 Name = "Iphone 15 Pro Max",
                 FullDescription = "Iphone made by apple",
                 ShortDescription = "Apple iphone",
+                Price = 5999m,
+                IsPinned = true,
+                Discount = 0,
             },
             new Product
             {
@@ -28,6 +31,9 @@ public sealed class ProductSeed : IEntityTypeConfiguration<Product>
                 Name = "Smart fridge",
                 FullDescription = "Ultra super smart fridge made by google that makes food teleport",
                 ShortDescription = "Bridge by google",
+                Price = 1200m,
+                IsPinned = true,
+                Discount = 10,
             }
         );
     }

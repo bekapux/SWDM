@@ -4,7 +4,13 @@ public static partial class Controllers
 {
     private static RouteGroupBuilder Product(this RouteGroupBuilder group)
     {
-        group.MapGet("{slug}", async (ISender sender, string slug, CancellationToken cancellationToken) =>
+        group.MapGet("pinned", async (ISender sender, CancellationToken cancellationToken) =>
+        {
+            var result = await sender.Send(new GetPinnedProductsQuery(), cancellationToken);
+            return Results.Ok(result);
+        });
+
+        group.MapGet("by-slug/{slug}", async (ISender sender, string slug, CancellationToken cancellationToken) =>
         {
             var result = await sender.Send(new GetProductBySlugQuery(slug), cancellationToken);
             return Results.Ok(result);

@@ -7,6 +7,9 @@ public sealed class Product : BaseDomainEntity<int>
     public string FullDescription { get; set; } = String.Empty;
     public string Slug { get; set; } = String.Empty;
     public int? Order { get; set; }
+    public decimal Price { get; set; }
+    public int? Discount { get; set; }
+    public bool IsPinned { get; set; }
 
     #region Nav Properties
 

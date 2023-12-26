@@ -26,12 +26,14 @@ public sealed class GetProductsByCategorySlugQueryHandler(SawoodamoDbContext con
                 itemsPerPage: request.ItemsPerPage,
                 mapper: productCategory => new ProductListItemDTO
                     {
-                        Slug = productCategory?.Product?.Slug ?? String.Empty,
-                        FullDescription = productCategory?.Product?.FullDescription,
                         Name = productCategory?.Product?.Name,
-                        Order = productCategory?.Product?.Order,
                         ShortDescription = productCategory?.Product?.ShortDescription,
-                        MainImageUrl = productCategory?.Product?.ProductImages?.FirstOrDefault(x => x.IsMainImage)?.Url ?? productCategory?.Product?.ProductImages?.FirstOrDefault()?.Url
+                        FullDescription = productCategory?.Product?.FullDescription,
+                        Slug = productCategory?.Product?.Slug ?? String.Empty,
+                        MainImageUrl = productCategory?.Product?.ProductImages?.FirstOrDefault(x => x.IsMainImage)?.Url ?? productCategory?.Product?.ProductImages?.FirstOrDefault()?.Url,
+                        Price = productCategory?.Product?.Price ?? int.MaxValue,
+                        Discount = productCategory?.Product?.Discount ?? 0,
+                        Order = productCategory?.Product?.Order ?? 0,
                     },
                 cancellationToken: cancellationToken);
 
@@ -44,6 +46,8 @@ public sealed record ProductListItemDTO
     public string? Name { get; set; }
     public string? ShortDescription { get; set; }
     public string? FullDescription { get; set; }
+    public int? Discount { get; set; }
+    public decimal Price { get; set; }
     public string? Slug { get; set; }
     public int? Order { get; set; }
     public string? MainImageUrl { get; set; }

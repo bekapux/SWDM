@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sawoodamo.API.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,6 +61,9 @@ namespace Sawoodamo.API.Database.Migrations
                     FullDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Slug = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Order = table.Column<int>(type: "int", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    Discount = table.Column<int>(type: "int", nullable: true),
+                    IsPinned = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
@@ -150,7 +153,7 @@ namespace Sawoodamo.API.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductSpec",
+                name: "ProductSpecs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -163,9 +166,9 @@ namespace Sawoodamo.API.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductSpec", x => x.Id);
+                    table.PrimaryKey("PK_ProductSpecs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductSpec_Products_ProductId",
+                        name: "FK_ProductSpecs_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -271,11 +274,11 @@ namespace Sawoodamo.API.Database.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "FullDescription", "IsActive", "Name", "Order", "ShortDescription", "Slug" },
+                columns: new[] { "Id", "Discount", "FullDescription", "IsActive", "IsPinned", "Name", "Order", "Price", "ShortDescription", "Slug" },
                 values: new object[,]
                 {
-                    { 1, "Iphone made by apple", true, "Iphone 15 Pro Max", 1, "Apple iphone", "iphone-pro-max" },
-                    { 2, "Ultra super smart fridge made by google that makes food teleport", true, "Smart fridge", 2, "Bridge by google", "fridge" }
+                    { 1, 0, "Iphone made by apple", true, true, "Iphone 15 Pro Max", 1, 5999m, "Apple iphone", "iphone-pro-max" },
+                    { 2, 10, "Ultra super smart fridge made by google that makes food teleport", true, true, "Smart fridge", 2, 1200m, "Bridge by google", "fridge" }
                 });
 
             migrationBuilder.InsertData(
@@ -283,8 +286,8 @@ namespace Sawoodamo.API.Database.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DateRegistered", "Email", "EmailConfirmed", "Firstname", "IsActive", "IsAdmin", "IsDeleted", "Lastname", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a", 0, "f1342cc2-4490-40f1-8028-a69b31361305", new DateTime(2023, 12, 25, 15, 55, 51, 747, DateTimeKind.Utc).AddTicks(9227), "string", true, "string", true, true, false, "string", true, null, "STRING", "STRING", "AQAAAAIAAYagAAAAEOD7Dl95t9xbQ53Xbg3ufxd123gm8j1OZbuNgFG6qsDSA9Qh+PnLF1vOrNgkvufEZQ==", "551345679", false, "0a6d84ef-3293-4c15-8371-3932aff02a40", false, "string" },
-                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f", 0, "a0df669f-7035-4b6c-82a0-5c726ae040f7", new DateTime(2023, 12, 25, 15, 55, 51, 703, DateTimeKind.Utc).AddTicks(7090), "beka.pukhashvili@gmail.com", true, "Beka", true, true, false, "Pukhashvili", true, null, "BEKA.PUKHASHVILI@GMAIL.COM", "BEKA.PUKHASHVILI", "AQAAAAIAAYagAAAAEO3jGAdV4e0Em3pcVP1akY73K6MP+8D7RxxTzRShjX5w87X7vVrWc8QqTnlqlgqP5A==", "551345679", false, "eb3f3232-f4c3-400c-b868-15bbcb5589dd", false, "beka.pukhashvili" }
+                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a", 0, "8efa01b3-f8b0-492b-b742-5845ce98c377", new DateTime(2023, 12, 26, 14, 14, 16, 438, DateTimeKind.Utc).AddTicks(5442), "string", true, "string", true, true, false, "string", true, null, "STRING", "STRING", "AQAAAAIAAYagAAAAELfWwXvVRkVNjkuOISt4ohQ0fK0a3mq3TanOc3j8IU+9JMCqYOlk5c92u5SLKRM+fg==", "551345679", false, "22c21710-7bdf-43e1-9158-3e8d2288ba15", false, "string" },
+                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f", 0, "98a62fc1-9714-49cd-93a5-8c940b68048a", new DateTime(2023, 12, 26, 14, 14, 16, 394, DateTimeKind.Utc).AddTicks(9375), "beka.pukhashvili@gmail.com", true, "Beka", true, true, false, "Pukhashvili", true, null, "BEKA.PUKHASHVILI@GMAIL.COM", "BEKA.PUKHASHVILI", "AQAAAAIAAYagAAAAEDnFKPtgC+Uw12Wl27P1biPlHxlV6rf+3u7oI9ui/pdjle/jK5ZYHPDf2rw03x9ayw==", "551345679", false, "8c55ea21-d54f-470d-bc4c-e748e264998c", false, "beka.pukhashvili" }
                 });
 
             migrationBuilder.InsertData(
@@ -308,7 +311,7 @@ namespace Sawoodamo.API.Database.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "ProductSpec",
+                table: "ProductSpecs",
                 columns: new[] { "Id", "ProductId", "SpecName", "SpecValue" },
                 values: new object[,]
                 {
@@ -382,8 +385,8 @@ namespace Sawoodamo.API.Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductSpec_ProductId",
-                table: "ProductSpec",
+                name: "IX_ProductSpecs_ProductId",
+                table: "ProductSpecs",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -426,7 +429,7 @@ namespace Sawoodamo.API.Database.Migrations
                 name: "ProductImages");
 
             migrationBuilder.DropTable(
-                name: "ProductSpec");
+                name: "ProductSpecs");
 
             migrationBuilder.DropTable(
                 name: "Tokens");
