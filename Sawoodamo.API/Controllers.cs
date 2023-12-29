@@ -19,5 +19,9 @@ public static partial class Controllers
         app.MapGroup("api/product-spec")
             .ProductSpec()
             .WithTags("Product Specs");
+        
+        app.MapGroup("api/cart")
+            .Cart()
+            .WithTags("Cart");
     }
 }
