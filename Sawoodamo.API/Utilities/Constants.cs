@@ -75,6 +75,13 @@ public static class Constants
     {
         public const string Admin = "Admin";
     }
+
+    public static class Cookies
+    {
+        public const string AuthToken = "authToken";
+        public const string Email = "email";
+        public const string UserId = "userid";
+    }
 }
 public static class ErrorMessageGenerator
 {

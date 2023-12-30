@@ -4,6 +4,7 @@ import { ProductCardsContainerComponent } from '../../commons/product-cards-cont
 import { CardComponent } from '../../commons/card/card.component';
 import { ProductService } from '../../_services/product.service';
 import { CommonModule } from '@angular/common';
+import { share } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -18,5 +19,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent{
-  pinnedProductsObservable = inject(ProductService).getPinnedProducts();
+  pinnedProductsObservable = inject(ProductService).getPinnedProducts().pipe(share());
 }

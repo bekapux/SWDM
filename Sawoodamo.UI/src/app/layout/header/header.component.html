@@ -5,15 +5,17 @@
     >
       <logo></logo>
       <nav-container>
-        <nav-item routerLink="home">Home</nav-item>
+        <nav-item routerLink="">Home</nav-item>
         <nav-item routerLink="company">Company</nav-item>
         <nav-item routerLink="marketPlace">MarketPlace</nav-item>
         <nav-item routerLink="features">Features</nav-item>
         <nav-item routerLink="team">Team</nav-item>
       </nav-container>
+      @if(!isAuthenticated()){
       <div class="flex items-center lg">
         <button-default> Log in </button-default>
       </div>
+      }
     </div>
   </nav>
 </header>

@@ -17,7 +17,6 @@ public sealed class
         
         RuleFor(x => x.Quantity)
             .NotNull()
-            .NotEmpty()
             .GreaterThanOrEqualTo(0)
             .WithMessage(ErrorMessageGenerator.Invalid(nameof(CartItem.Quantity)));
     }

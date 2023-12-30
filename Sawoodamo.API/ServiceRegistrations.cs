@@ -67,14 +67,13 @@ public static class ServiceRegistrations
 
         services.ConfigureAWSS3(configuration);
 
-#if DEBUG
         services.AddCors((o) => o.AddPolicy("debug", policy =>
         {
-            policy.AllowAnyMethod()
-                .AllowAnyOrigin()
-                .AllowAnyHeader();
+            policy.WithOrigins("http://localhost", "http://localhost:4200", "http://localhost:4000"  ) // Replace with the actual origins
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
         }));
-#endif
 
         return services;
     }

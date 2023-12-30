@@ -5,6 +5,7 @@ public sealed record CreateProductCommand(
     string ShortDescription,
     string FullDescription,
     string Slug,
+    decimal Price,
     int? Order,
     List<CreateProductSpecDTO> ProductSpecDTOs,
     List<int> ProductCategoryIds
@@ -17,8 +18,12 @@ public sealed class CreateProductCommandValidator : AbstractValidator<CreateProd
     public CreateProductCommandValidator()
     {
         RuleFor(x => x.Order)
-            .Must(order => order is null || order > 0)
+            .Must(order => order is null or > 0)
                 .WithMessage(ErrorMessageGenerator.Invalid(nameof(Product.Order)));
+        
+        RuleFor(x => x.Price)
+            .GreaterThan(0)
+            .WithMessage(ErrorMessageGenerator.Invalid(nameof(Product.Price)));
 
         RuleFor(x => x.Name)
             .NotNull()
@@ -45,6 +50,7 @@ public class CreateProductCommandHandler(SawoodamoDbContext context) : IRequestH
                 ShortDescription = request.ShortDescription,
                 Slug = request.Slug,
                 Order = request.Order,
+                Price = request.Price,
                 ProductSpecs = request.ProductSpecDTOs
                 .Select(x => new ProductSpec
                 {

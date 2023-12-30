@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavItemComponent } from './nav-item/nav-item.component';
 import { NavContainerComponent } from './nav-container/nav-container.component';
 import { ButtonComponent } from '../../commons/button/button.component';
 import { RouterModule } from '@angular/router';
 import { LogoComponent } from './logo/logo.component';
+import { AuthService } from '../../_services/auth.service';
 
 @Component({
   selector: 'global-header',
@@ -13,5 +14,5 @@ import { LogoComponent } from './logo/logo.component';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-
+  isAuthenticated = inject(AuthService).isAuthenticated;
 }
