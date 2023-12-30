@@ -26,37 +26,37 @@ public static partial class Controllers
         {
             var result = Results.Ok(await sender.Send(command, cancellationToken));
             return Results.Ok(result);
-        });
+        }).RequireRoles(Constants.Roles.Admin);
 
         group.MapPut("", async (UpdateProductCommand command, ISender sender, CancellationToken cancellationToken) =>
         {
             await sender.Send(command, cancellationToken);
             return Results.Ok();
-        });
+        }).RequireRoles(Constants.Roles.Admin);
 
         group.MapDelete("{id:int}", async (ISender sender, int id, CancellationToken cancellationToken) =>
         {
             await sender.Send(new DeleteProductCommand(id), cancellationToken);
             return Results.Ok();
-        });
+        }).RequireRoles(Constants.Roles.Admin);
 
         group.MapPost("upload-image/{id:int}/{order:int}",async (ISender sender, IFormFile file, int id, int order, [FromQuery] bool? main, CancellationToken cancellationToken) =>
         {
             await sender.Send(new CreateProductImageCommand(file, id, order, main), cancellationToken);
             return Results.Ok();
-        }).DisableAntiforgery();
+        }).RequireRoles(Constants.Roles.Admin).DisableAntiforgery();
 
         group.MapPost("reorder", async (ISender sender, ReorderProductImagesCommand command, CancellationToken cancellationToken) =>
         {
             await sender.Send(command, cancellationToken);
             return Results.Ok();
-        });
+        }).RequireRoles(Constants.Roles.Admin);
 
         group.MapDelete("delete-image/{id:int}", async (int id, [FromQuery] bool? hardDelete, ISender sender, CancellationToken cancellationToken) =>
         {
             await sender.Send(new DeleteProductImageCommand(id, hardDelete), cancellationToken);
             return Results.Ok();
-        });
+        }).RequireRoles(Constants.Roles.Admin);
 
         return group;
     }

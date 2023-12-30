@@ -1,5 +1,3 @@
-using Sawoodamo.API.Features.Cart;
-
 namespace Sawoodamo.API;
 
 public static partial class Controllers
@@ -9,6 +7,18 @@ public static partial class Controllers
         group.MapPost("", async (AddProductToCartCommand command, ISender sender, CancellationToken cancellationToken) =>
         {
             await sender.Send(command, cancellationToken);
+            return Results.Ok();
+        });
+        
+        group.MapPut("", async (ChangeOrRemoveProductFromCartCommand command, ISender sender, CancellationToken cancellationToken) =>
+        {
+            await sender.Send(command, cancellationToken);
+            return Results.Ok();
+        });
+        
+        group.MapDelete("", async (ISender sender, CancellationToken cancellationToken) =>
+        {
+            await sender.Send(new ClearCartCommand(), cancellationToken);
             return Results.Ok();
         });
 

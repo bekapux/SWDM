@@ -25,6 +25,7 @@ global using Sawoodamo.API.Utilities.Models;
 global using Sawoodamo.API.Utilities.Validation;
 global using System.Text.Json;
 global using System.Text.RegularExpressions;
+global using Sawoodamo.API.Features.Cart;
 using Amazon;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
