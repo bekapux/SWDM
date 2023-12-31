@@ -31,6 +31,9 @@ public static partial class Controllers
             return Results.Ok();
         });
 
+        group.MapGet("is-authenticated", () => Results.Ok())
+            .RequireAuthorization();
+
         return group;
     }
 
