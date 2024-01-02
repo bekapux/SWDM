@@ -1,3 +1,7 @@
 <global-header></global-header>
 <router-outlet></router-outlet>
 <global-footer></global-footer>
+
+@if(!authService.isAuthenticated()){
+<log-in *ngIf="modalService.isModalOpen('auth')"></log-in>
+}

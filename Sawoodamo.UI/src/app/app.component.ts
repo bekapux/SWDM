@@ -8,18 +8,22 @@ import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { AuthService } from './_services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ModalService } from './_services/modal.service';
+import { LogInComponent } from './modals/log-in/log-in.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent, LogInComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  public authService = inject(AuthService);
+  public modalService = inject(ModalService);
   private destroyRef= inject(DestroyRef);
+
   constructor(
-    private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     if (isPlatformBrowser(platformId)) {
@@ -35,5 +39,7 @@ export class AppComponent {
           }
         );
     }
+
+    this.modalService.register('auth');
   }
 }

@@ -11,6 +11,7 @@ export const theme = {
     gray: {
       50: "#9D8B73",
     },
+    red: "#FF0000",
   },
   screens: {
     sm: "300px",
