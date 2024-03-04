@@ -1,4 +1,6 @@
-﻿namespace Sawoodamo.API;
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Sawoodamo.API;
 
 public static partial class Controllers
 {
@@ -20,19 +22,19 @@ public static partial class Controllers
         {
             var result = await sender.Send(command, cancellationToken);
             return Results.Ok(result);
-        }).RequireAuthorization();
+        }).RequireRoles(Constants.Roles.Admin);
 
         group.MapPut("", async (ISender sender, UpdateCategoryCommand command, CancellationToken cancellationToken) =>
         {
             await sender.Send(command, cancellationToken);
             return Results.Ok();
-        }).RequireAuthorization();
+        }).RequireRoles(Constants.Roles.Admin);
 
         group.MapDelete("{id}", async (string id, ISender sender, CancellationToken token) =>
         {
             await sender.Send(new DeleteCategoryCommand(id), token);
             Results.Ok();
-        });
+        }).RequireRoles(Constants.Roles.Admin);
 
         return group;
     }

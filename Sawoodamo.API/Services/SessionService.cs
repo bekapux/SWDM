@@ -5,13 +5,10 @@ namespace Sawoodamo.API.Services;
 
 public class SessionService(IHttpContextAccessor contextAccessor) : ISessionService
 {
-    public string? CurrentUserId()
-    {
-
-        return contextAccessor.HttpContext?.Request is null ? default : contextAccessor.HttpContext?.User.Claims.FirstOrDefault(x =>
-                string.Equals(x.Type, JwtRegisteredClaimNames.Jti, StringComparison.InvariantCultureIgnoreCase))
+    public string? CurrentUserId() => 
+        contextAccessor.HttpContext?.Request is null ? default : contextAccessor.HttpContext?.User.Claims.FirstOrDefault(x =>
+                string.Equals(x.Type, Constants.CustomClaimTypes.Uid, StringComparison.InvariantCultureIgnoreCase))
             ?.Value;
-    }
 
     public string? CurrentUserEmail() =>
         contextAccessor.HttpContext?.Request is null ?

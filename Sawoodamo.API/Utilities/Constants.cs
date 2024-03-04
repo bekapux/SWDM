@@ -70,9 +70,23 @@ public static class Constants
         public const string DuplicateName = "DuplicateName";
         public const int ErrorCode = 404;
     }
+    
+    public static class Roles
+    {
+        public const string Admin = "Admin";
+    }
+
+    public static class Cookies
+    {
+        public const string AuthToken = "authToken";
+        public const string Email = "email";
+        public const string UserId = "userid";
+    }
 }
 public static class ErrorMessageGenerator
 {
+    public const string InternalServerError = "Innternal server error";
+    
     public static string Length(string propertyName, int minLength, int maxLength) =>
         $"{propertyName} must contain {minLength} - {maxLength} characters";
 

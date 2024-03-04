@@ -11,9 +11,17 @@
         <nav-item routerLink="features">Features</nav-item>
         <nav-item routerLink="team">Team</nav-item>
       </nav-container>
+      @if(isAuthenticated() === false){
       <div class="flex items-center lg">
-        <button-default> Log in </button-default>
+        <button-default class="text-white" (click)="openAuthModal()"> Log in </button-default>
       </div>
+      } @else if(isAuthenticated() === true){
+      <div class="flex items-center lg">
+        <button-default class="text-white" (click)="logOut()"> Log Out </button-default>
+      </div>
+      } @else if (isAuthenticated() === null) {
+        <button-default class="text-white"> Loading... </button-default>
+      }
     </div>
   </nav>
 </header>

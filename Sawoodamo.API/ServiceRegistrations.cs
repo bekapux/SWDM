@@ -26,6 +26,7 @@ global using Sawoodamo.API.Utilities.Models;
 global using Sawoodamo.API.Utilities.Validation;
 global using System.Text.Json;
 global using System.Text.RegularExpressions;
+global using Sawoodamo.API.Features.Cart;
 using Amazon;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -63,9 +64,10 @@ public static class ServiceRegistrations
     {
         services.AddCors((o) => o.AddPolicy("debug", policy =>
         {
-            policy.AllowAnyMethod()
-                .AllowAnyOrigin()
-                .AllowAnyHeader();
+            policy.WithOrigins("http://localhost", "http://localhost:4200", "http://localhost:4000"  ) // Replace with the actual origins
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
         }));
     }
 
