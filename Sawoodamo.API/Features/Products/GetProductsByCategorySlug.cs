@@ -46,7 +46,6 @@ public sealed record ProductListItemDTO
     public string? Name { get; set; }
     public string? ShortDescription { get; set; }
     public string? FullDescription { get; set; }
-    public int? Discount { get; set; }
     public decimal OriginalPrice { get; set; }
     public decimal CurrentPrice { get; set; }
     public string? Slug { get; set; }

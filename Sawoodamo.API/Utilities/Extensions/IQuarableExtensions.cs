@@ -2,9 +2,11 @@
 
 public static class IQuarableExtensions
 {
-    public static IQueryable<T> Paginate<T> (this IQueryable<T> query, int pageNumber, int itemsPerPage) where T : class
+    public static IQueryable<T> Paginate<T>(this IQueryable<T> query, int pageNumber, int itemsPerPage) where T : class
     {
-        return query.Skip(pageNumber - 1).Take(itemsPerPage);
+        return query
+            .Skip(itemsPerPage * (pageNumber - 1))
+            .Take(itemsPerPage);
     }
 
     public static async Task<PaginatedListResult<TResult>> ToPaginatedListAsync<T, TResult>(
