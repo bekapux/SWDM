@@ -33,7 +33,6 @@ public sealed class GetProductsByCategorySlugQueryHandler(SawoodamoDbContext con
                         MainImageUrl = productCategory?.Product?.ProductImages?.FirstOrDefault(x => x.IsMainImage)?.Url ?? productCategory?.Product?.ProductImages?.FirstOrDefault()?.Url,
                         CurrentPrice = productCategory?.Product?.CurrentPrice ?? int.MaxValue,
                         OriginalPrice = productCategory?.Product?.OriginalPrice ?? int.MaxValue,
-                        Discount = productCategory?.Product?.DiscountPercent ?? 0,
                         Order = productCategory?.Product?.Order ?? 0,
                     },
                 cancellationToken: cancellationToken);

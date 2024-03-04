@@ -10,7 +10,6 @@ public sealed class Product : BaseDomainEntity
     public required decimal OriginalPrice { get; set; }
     public required decimal CurrentPrice { get; set; }
     public bool IsPinned { get; set; }
-    public byte DiscountPercent => (byte)Math.Round((OriginalPrice - CurrentPrice) / OriginalPrice * 100);
 
     #region Nav Properties
 

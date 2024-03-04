@@ -1,6 +1,6 @@
 namespace Sawoodamo.API.Features.Cart;
 
-public sealed record ChangeOrRemoveProductFromCartCommand(int ProductId, int Quantity) : IRequest;
+public sealed record ChangeOrRemoveProductFromCartCommand(string ProductId, int Quantity) : IRequest;
 
 #region Valdiators
 
@@ -12,7 +12,6 @@ public sealed class
         RuleFor(x => x.ProductId)
             .NotNull()
             .NotEmpty()
-            .GreaterThan(0)
             .WithMessage(ErrorMessageGenerator.Invalid(nameof(CartItem.ProductId)));
         
         RuleFor(x => x.Quantity)

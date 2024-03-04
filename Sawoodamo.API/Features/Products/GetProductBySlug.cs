@@ -21,7 +21,8 @@ public sealed class GetProductBySlugQueryHandler(SawoodamoDbContext context) : I
                     Order = x.Order,
                     IsMainImage = x.IsMainImage,
                 }),
-                Price = x.Price,
+                CurrentPrice = x.CurrentPrice,
+                OriginalPrice = x.OriginalPrice,
                 ShortDescription = x.ShortDescription,
                 ProductCategories = x.ProductCategories!.Select(pc => pc.Category!.Name),
                 ProductSpecs = x.ProductSpecs!.Select(ps => new ProductSpecDTO(ps.SpecName,ps.SpecValue))
@@ -41,13 +42,11 @@ public sealed class ProductDto
     public string? Name { get; set; }
     public string? ShortDescription { get; set; }
     public string? FullDescription { get; set; }
-    public decimal Price { get; set; }
+    public decimal CurrentPrice { get; set; }
+    public decimal OriginalPrice { get; set; }
     public IEnumerable<ProductImageDto>? ProductImages { get; set; }
     public IEnumerable<string>? ProductCategories { get; set; }
     public IEnumerable<ProductSpecDTO>? ProductSpecs { get; set; }
-
-    public int? Discount { get; set; }
-    public decimal Price { get; set; }
     public int? Order { get; set; }
 }
 

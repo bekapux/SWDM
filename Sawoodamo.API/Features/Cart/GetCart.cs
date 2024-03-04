@@ -10,7 +10,7 @@ public sealed class GetCartQueryHandler (SawoodamoDbContext context, ISessionSer
 
         var productsInCart = await context.CartItems
             .Where(x => x.UserId == currentUser)
-            .Select(x=> new CartItemDTO(x.Product!.Id, x.Product.Name, x.Quantity, x.Product.Price))
+            .Select(x=> new CartItemDTO(x.Product!.Id, x.Product.Name, x.Quantity, x.Product.CurrentPrice))
             .ToListAsync(cancellationToken);
 
         if(productsInCart.Any(x=> x.Price <= 0 || x.Quantity <= 0))
@@ -20,7 +20,7 @@ public sealed class GetCartQueryHandler (SawoodamoDbContext context, ISessionSer
     }
 }
 
-public sealed record CartItemDTO(int ProductId, string ProductName, int Quantity, decimal Price);
+public sealed record CartItemDTO(string ProductId, string ProductName, int Quantity, decimal Price);
 
 public sealed record CartPageDetailsDTO(List<CartItemDTO> CartItems)
 {

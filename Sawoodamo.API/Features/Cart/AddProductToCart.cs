@@ -1,6 +1,6 @@
 namespace Sawoodamo.API.Features.Cart;
 
-public sealed record AddProductToCartCommand(int ProductId, int Quantity) : IRequest;
+public sealed record AddProductToCartCommand(string ProductId, int Quantity) : IRequest;
 
 #region Validaton
 
@@ -18,7 +18,6 @@ public sealed class AddProductToCartCommandValidator : AbstractValidator<AddProd
         RuleFor(x => x.ProductId)
             .NotNull()
             .NotEmpty()
-            .GreaterThan(0)
                 .WithMessage(ErrorMessageGenerator.Invalid(nameof(CartItem.ProductId)));
     }
 }
