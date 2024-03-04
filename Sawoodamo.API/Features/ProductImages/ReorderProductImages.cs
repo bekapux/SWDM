@@ -1,6 +1,6 @@
 ﻿namespace Sawoodamo.API.Features.ProductImages;
 
-public sealed record ReorderProductImagesCommand(int ProductId, Dictionary<int, int> ImageOrder) : IRequest;
+public sealed record ReorderProductImagesCommand(string ProductId, Dictionary<string, int> ImageOrder) : IRequest;
 
 #region Validators
 
@@ -15,7 +15,7 @@ public sealed class ReorderProductImagesCommandValidator : AbstractValidator<Reo
                 .WithMessage("All keys and values must be unique.");
     }
 
-    private static bool BeUnique(Dictionary<int, int> dictionary) =>
+    private static bool BeUnique(Dictionary<string, int> dictionary) =>
          dictionary.Count == dictionary.Values.ToHashSet().Count;
 }
 

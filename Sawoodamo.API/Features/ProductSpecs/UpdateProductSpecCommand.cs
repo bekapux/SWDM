@@ -1,7 +1,7 @@
 ﻿
 namespace Sawoodamo.API.Features.ProductSpecs;
 
-public sealed record UpdateProductSpecCommand(int Id, string SpecName, string SpecValue) : IRequest;
+public sealed record UpdateProductSpecCommand(string Id, string SpecName, string SpecValue) : IRequest;
 
 public sealed class UpdateProductSpecCommandValidator : AbstractValidator<UpdateProductSpecCommand>
 {
@@ -24,7 +24,6 @@ public sealed class UpdateProductSpecCommandValidator : AbstractValidator<Update
         RuleFor(x => x.Id)
             .NotEmpty()
             .NotNull()
-            .GreaterThan(0)
                 .WithMessage(ErrorMessageGenerator.Invalid(nameof(ProductSpec.Id)));
     }
 }

@@ -9,7 +9,7 @@ public sealed class CategorySeed : IEntityTypeConfiguration<Category>
         builder.HasData(
             new Category
             {
-                Id = 1,
+                Id = "cb8b63ea-6b7c-4a3c-a926-eaf0ca50b575",
                 IsActive = true,
                 IsDeleted = false,
                 Name = "Electronics",
@@ -18,7 +18,7 @@ public sealed class CategorySeed : IEntityTypeConfiguration<Category>
             },
             new Category
             {
-                Id = 2,
+                Id = "cb8b63ea-6b7c-4a3c-a926-eaf0ca50b576",
                 IsActive = true,
                 IsDeleted = false,
                 Name = "Kitchen",

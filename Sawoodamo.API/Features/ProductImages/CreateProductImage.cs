@@ -1,6 +1,6 @@
 ﻿namespace Sawoodamo.API.Features.ProductImages;
 
-public sealed record CreateProductImageCommand(IFormFile File, int? ProductId, int? Order, bool? IsMainImage = false) : IRequest;
+public sealed record CreateProductImageCommand(IFormFile File, string? ProductId, int? Order, bool? IsMainImage = false) : IRequest;
 
 #region Validator
 
@@ -12,7 +12,6 @@ public sealed class CreateProductImageCommandValidator : AbstractValidator<Creat
         RuleFor(x => x.ProductId)
             .NotNull()
             .NotEmpty()
-            .GreaterThan(0)
                 .WithMessage("Valid product ID is required");
 
         RuleFor(x => x.Order)
@@ -51,7 +50,7 @@ public sealed class CreateProductImageCommandHandler(SawoodamoDbContext context,
             IsDeleted = false,
             IsMainImage = request.IsMainImage ?? false,
             Order = request.Order,
-            ProductId = request.ProductId!.Value,
+            ProductId = request.ProductId,
         };
 
         await context.ProductImages.AddAsync(image, cancellationToken);

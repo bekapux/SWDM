@@ -1,6 +1,6 @@
 namespace Sawoodamo.API.Database.Entities;
 
-public sealed class Category : BaseDomainEntity<int>
+public sealed class Category : BaseDomainEntity
 {
     public string Name { get; set; } = String.Empty;
     public int? Order { get; set; }

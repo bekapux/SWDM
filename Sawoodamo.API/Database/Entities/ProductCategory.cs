@@ -2,8 +2,8 @@
 
 public sealed class ProductCategory
 {
-    public int CategoryId { get; set; }
-    public int ProductId { get; set; }
+    public string? CategoryId { get; set; }
+    public string? ProductId { get; set; }
     public bool IsDeleted { get; set; }
 
     #region Nav Properties

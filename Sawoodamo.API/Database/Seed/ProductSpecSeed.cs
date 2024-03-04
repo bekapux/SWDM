@@ -9,22 +9,22 @@ public sealed class ProductSpecSeed : IEntityTypeConfiguration<ProductSpec>
         builder.HasData(
             new ProductSpec
             {
-                Id = 1,
-                ProductId = 1,
+                Id = "bcafcbb7-0e61-4339-9528-468610385b93",
+                ProductId = "16e4437a-1c20-4bf4-9ca8-4273db759c71",
                 SpecName = "Weight",
                 SpecValue = "221g",
             },
             new ProductSpec
             {
-                Id = 2,
-                ProductId = 1,
+                Id = "996b5fff-614e-49bb-8702-f292d9d2ec62",
+                ProductId = "16e4437a-1c20-4bf4-9ca8-4273db759c71",
                 SpecName = "Display Size",
                 SpecValue = "6.7 inches",
             },
             new ProductSpec
             {
-                Id = 3,
-                ProductId = 1,
+                Id = "77306671-19be-4900-854a-cc5bd8a571f5",
+                ProductId = "16e4437a-1c20-4bf4-9ca8-4273db759c71",
                 SpecName = "OS",
                 SpecValue = "iOS 17",
             }

@@ -1,7 +1,7 @@
 ﻿
 namespace Sawoodamo.API.Features.ProductSpecs;
 
-public sealed record CreateProductSpecCommand(int ProductId, string SpecName, string SpecValue) : IRequest;
+public sealed record CreateProductSpecCommand(string ProductId, string SpecName, string SpecValue) : IRequest;
 
 #region Validators
 
@@ -27,7 +27,6 @@ public sealed class CreateProductSpecCommandValidator : AbstractValidator<Create
         RuleFor(x => x.ProductId)
             .NotEmpty()
             .NotNull()
-            .GreaterThan(0)
                 .WithMessage(ErrorMessageGenerator.Invalid(nameof(Product.Id)));
     }
 }

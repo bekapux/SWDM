@@ -1,6 +1,6 @@
 ﻿namespace Sawoodamo.API.Features.Categories;
 
-public sealed record CreateCategoryCommand(string Name, string Slug, int? Order) : IRequest<int>;
+public sealed record CreateCategoryCommand(string Name, string Slug, int? Order) : IRequest<string>;
 
 #region Validators
 
@@ -50,9 +50,9 @@ public sealed class CreateCategoryCommandAsyncValidator : AbstractValidator<Crea
 
 #endregion
 
-public sealed class CreateCategoryCommandHandler(SawoodamoDbContext context) : IRequestHandler<CreateCategoryCommand, int>
+public sealed class CreateCategoryCommandHandler(SawoodamoDbContext context) : IRequestHandler<CreateCategoryCommand, string>
 {
-    public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = new Category
         {

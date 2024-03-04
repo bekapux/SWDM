@@ -6,9 +6,10 @@ public sealed record CreateProductCommand(
     string FullDescription,
     string Slug,
     int? Order,
+    decimal Price,
     List<CreateProductSpecDTO> ProductSpecDTOs,
-    List<int> ProductCategoryIds
-) : IRequest<int>;
+    List<string> ProductCategoryIds
+) : IRequest<string>;
 
 #region Validators
 
@@ -32,9 +33,9 @@ public sealed class CreateProductCommandValidator : AbstractValidator<CreateProd
 #endregion
 
 
-public class CreateProductCommandHandler(SawoodamoDbContext context) : IRequestHandler<CreateProductCommand, int>
+public class CreateProductCommandHandler(SawoodamoDbContext context) : IRequestHandler<CreateProductCommand, string>
 {
-    public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -45,6 +46,8 @@ public class CreateProductCommandHandler(SawoodamoDbContext context) : IRequestH
                 ShortDescription = request.ShortDescription,
                 Slug = request.Slug,
                 Order = request.Order,
+                OriginalPrice = request.Price,
+                CurrentPrice = request.Price,
                 ProductSpecs = request.ProductSpecDTOs
                 .Select(x => new ProductSpec
                 {

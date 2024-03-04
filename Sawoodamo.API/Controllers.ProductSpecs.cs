@@ -16,7 +16,7 @@ public static partial class Controllers
             return Results.Ok();
         });
 
-        group.MapDelete("{id:int}", async (int id, ISender sender, CancellationToken cancellationToken) =>
+        group.MapDelete("{id}", async (string id, ISender sender, CancellationToken cancellationToken) =>
         {
             await sender.Send(new DeleteProductSpecCommand(id), cancellationToken);
             return Results.Ok();

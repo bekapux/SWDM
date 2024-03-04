@@ -1,6 +1,6 @@
 ﻿namespace Sawoodamo.API.Features.Categories;
 
-public sealed record DeleteCategoryCommand(int Id) : IRequest;
+public sealed record DeleteCategoryCommand(string Id) : IRequest;
 
 public sealed class DeleteCategoryCommandHandler(SawoodamoDbContext context) : IRequestHandler<DeleteCategoryCommand>
 {

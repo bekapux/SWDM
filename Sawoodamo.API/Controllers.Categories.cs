@@ -10,7 +10,7 @@ public static partial class Controllers
             return Results.Ok(result);
         });
 
-        group.MapGet("{id:int}", async (int id, ISender sender, CancellationToken cancellationToken) =>
+        group.MapGet("{id}", async (string id, ISender sender, CancellationToken cancellationToken) =>
         {
             var result = await sender.Send(new GetCategoryQuery(id), cancellationToken);
             return Results.Ok(result);
@@ -28,7 +28,7 @@ public static partial class Controllers
             return Results.Ok();
         }).RequireAuthorization();
 
-        group.MapDelete("{id:int}", async (int id, ISender sender, CancellationToken token) =>
+        group.MapDelete("{id}", async (string id, ISender sender, CancellationToken token) =>
         {
             await sender.Send(new DeleteCategoryCommand(id), token);
             Results.Ok();

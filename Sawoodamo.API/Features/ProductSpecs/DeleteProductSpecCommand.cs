@@ -1,6 +1,6 @@
 ﻿namespace Sawoodamo.API.Features.ProductSpecs;
 
-public sealed record DeleteProductSpecCommand (int SpecId) : IRequest;
+public sealed record DeleteProductSpecCommand (string SpecId) : IRequest;
 
 public sealed class DeleteProductSpecCommandHandler(SawoodamoDbContext context) : IRequestHandler<DeleteProductSpecCommand>
 {

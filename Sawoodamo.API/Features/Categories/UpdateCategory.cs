@@ -1,6 +1,6 @@
 ﻿namespace Sawoodamo.API.Features.Categories;
 
-public sealed record UpdateCategoryCommand(int Id, string Slug, int? Order, string Name) : IRequest;
+public sealed record UpdateCategoryCommand(string Id, string Slug, int? Order, string Name) : IRequest;
 
 #region Validation
 
@@ -12,7 +12,6 @@ public sealed class UpdateCategoryCommandValidator : AbstractValidator<UpdateCat
         RuleFor(x => x.Id)
             .NotEmpty()
             .NotNull()
-            .GreaterThan(0)
                 .WithMessage(ErrorMessageGenerator.Invalid(nameof(Category.Id)));
 
         RuleFor(x => x.Name)

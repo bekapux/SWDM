@@ -9,7 +9,7 @@ public sealed class ProductSeed : IEntityTypeConfiguration<Product>
         builder.HasData(
             new Product
             {
-                Id = 1,
+                Id = "16e4437a-1c20-4bf4-9ca8-4273db759c71",
                 IsDeleted = false,
                 Order = 1,
                 Slug = "iphone-pro-max",
@@ -17,13 +17,13 @@ public sealed class ProductSeed : IEntityTypeConfiguration<Product>
                 Name = "Iphone 15 Pro Max",
                 FullDescription = "Iphone made by apple",
                 ShortDescription = "Apple iphone",
-                Price = 5999m,
+                OriginalPrice = 5999m,
+                CurrentPrice = 5999m,
                 IsPinned = true,
-                Discount = 0,
             },
             new Product
             {
-                Id = 2,
+                Id = "6529374c-2166-4727-95ac-0c623aa21642",
                 IsDeleted = false,
                 Order = 2,
                 Slug = "fridge",
@@ -31,9 +31,9 @@ public sealed class ProductSeed : IEntityTypeConfiguration<Product>
                 Name = "Smart fridge",
                 FullDescription = "Ultra super smart fridge made by google that makes food teleport",
                 ShortDescription = "Bridge by google",
-                Price = 1200m,
+                OriginalPrice = 1200m,
+                CurrentPrice = 1200m,
                 IsPinned = true,
-                Discount = 10,
             }
         );
     }

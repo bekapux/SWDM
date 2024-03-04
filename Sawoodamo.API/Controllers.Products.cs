@@ -34,13 +34,13 @@ public static partial class Controllers
             return Results.Ok();
         });
 
-        group.MapDelete("{id:int}", async (ISender sender, int id, CancellationToken cancellationToken) =>
+        group.MapDelete("{id}", async (ISender sender, string id, CancellationToken cancellationToken) =>
         {
             await sender.Send(new DeleteProductCommand(id), cancellationToken);
             return Results.Ok();
         });
 
-        group.MapPost("upload-image/{id:int}/{order:int}",async (ISender sender, IFormFile file, int id, int order, [FromQuery] bool? main, CancellationToken cancellationToken) =>
+        group.MapPost("upload-image/{id:int}/{order:int}",async (ISender sender, IFormFile file, string id, int order, [FromQuery] bool? main, CancellationToken cancellationToken) =>
         {
             await sender.Send(new CreateProductImageCommand(file, id, order, main), cancellationToken);
             return Results.Ok();
@@ -52,7 +52,7 @@ public static partial class Controllers
             return Results.Ok();
         });
 
-        group.MapDelete("delete-image/{id:int}", async (int id, [FromQuery] bool? hardDelete, ISender sender, CancellationToken cancellationToken) =>
+        group.MapDelete("delete-image/{id}", async (string id, [FromQuery] bool? hardDelete, ISender sender, CancellationToken cancellationToken) =>
         {
             await sender.Send(new DeleteProductImageCommand(id, hardDelete), cancellationToken);
             return Results.Ok();

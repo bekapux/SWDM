@@ -1,6 +1,6 @@
 namespace Sawoodamo.API.Database.Entities.Utilities;
 
-public interface IEntityWithId<T>
+public interface IEntityWithId
 {
-    public T Id { get; set; }
+    public string Id { get; set; }
 }

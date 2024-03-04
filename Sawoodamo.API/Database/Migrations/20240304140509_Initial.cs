@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sawoodamo.API.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,8 +61,8 @@ namespace Sawoodamo.API.Database.Migrations
                     FullDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Slug = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Order = table.Column<int>(type: "int", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
-                    Discount = table.Column<int>(type: "int", nullable: true),
+                    OriginalPrice = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    CurrentPrice = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
                     IsPinned = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
@@ -274,11 +274,11 @@ namespace Sawoodamo.API.Database.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Discount", "FullDescription", "IsActive", "IsPinned", "Name", "Order", "Price", "ShortDescription", "Slug" },
+                columns: new[] { "Id", "CurrentPrice", "FullDescription", "IsActive", "IsPinned", "Name", "Order", "OriginalPrice", "ShortDescription", "Slug" },
                 values: new object[,]
                 {
-                    { 1, 0, "Iphone made by apple", true, true, "Iphone 15 Pro Max", 1, 5999m, "Apple iphone", "iphone-pro-max" },
-                    { 2, 10, "Ultra super smart fridge made by google that makes food teleport", true, true, "Smart fridge", 2, 1200m, "Bridge by google", "fridge" }
+                    { 1, 5999m, "Iphone made by apple", true, true, "Iphone 15 Pro Max", 1, 5999m, "Apple iphone", "iphone-pro-max" },
+                    { 2, 1200m, "Ultra super smart fridge made by google that makes food teleport", true, true, "Smart fridge", 2, 1200m, "Bridge by google", "fridge" }
                 });
 
             migrationBuilder.InsertData(
@@ -286,8 +286,8 @@ namespace Sawoodamo.API.Database.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DateRegistered", "Email", "EmailConfirmed", "Firstname", "IsActive", "IsAdmin", "IsDeleted", "Lastname", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a", 0, "933603b0-6bc0-4f2f-a2dd-58e9ab4a4300", new DateTime(2023, 12, 26, 14, 49, 2, 164, DateTimeKind.Utc).AddTicks(9744), "string", true, "string", true, true, false, "string", true, null, "STRING", "STRING", "AQAAAAIAAYagAAAAELmswQYrrFJI3B5AqCkXjoBal7o6/KQUGa5tbiu8mwlw/gwSeTbEdUUXSwKgbjgn8g==", "551345679", false, "229b3e3a-1dd8-4f28-8453-487108ec75bc", false, "string" },
-                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f", 0, "d446118c-fd96-4d30-8057-35aab00347a6", new DateTime(2023, 12, 26, 14, 49, 2, 122, DateTimeKind.Utc).AddTicks(5825), "beka.pukhashvili@gmail.com", true, "Beka", true, true, false, "Pukhashvili", true, null, "BEKA.PUKHASHVILI@GMAIL.COM", "BEKA.PUKHASHVILI", "AQAAAAIAAYagAAAAEAcp6Qsz41BYrRInyTo4QLDQlXOokNtFSt1Tm5IgWAwvdCZBLuO0k8BkQ5yHYXsOxA==", "551345679", false, "39115312-892d-44cb-bacd-97edae45a277", false, "beka.pukhashvili" }
+                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a", 0, "2ba9419a-a42e-430c-a88c-45303edf2d3f", new DateTime(2024, 3, 4, 14, 5, 9, 247, DateTimeKind.Utc).AddTicks(9067), "string", true, "string", true, true, false, "string", true, null, "STRING", "STRING", "AQAAAAIAAYagAAAAEGoGuIyb1H5KSvPZZC4d5bLpXGFZLdsA40Q646+JIOeXUkvdp2/AXYbHg3/caPaudw==", "551345679", false, "0ea36049-faf2-4d25-8a15-7de9f2ac64f7", false, "string" },
+                    { "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f", 0, "0c931551-9380-4c23-bd6c-a68b51876466", new DateTime(2024, 3, 4, 14, 5, 9, 203, DateTimeKind.Utc).AddTicks(2106), "beka.pukhashvili@gmail.com", true, "Beka", true, true, false, "Pukhashvili", true, null, "BEKA.PUKHASHVILI@GMAIL.COM", "BEKA.PUKHASHVILI", "AQAAAAIAAYagAAAAEISkz8pvcvor7N2TXkAWqA+m2s8LK77uRIdfQa+InkVHV+pHgV5pBw1MZtM4N3J6Dw==", "551345679", false, "6a65e319-f5fe-4e65-b5ad-d1cc61db1c5c", false, "beka.pukhashvili" }
                 });
 
             migrationBuilder.InsertData(
@@ -304,10 +304,11 @@ namespace Sawoodamo.API.Database.Migrations
                 columns: new[] { "Id", "IsActive", "IsMainImage", "Order", "ProductId", "Url" },
                 values: new object[,]
                 {
-                    { 1, true, true, 1, 1, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" },
-                    { 2, true, false, 2, 1, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" },
-                    { 3, true, true, 1, 2, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" },
-                    { 4, true, false, 2, 2, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" }
+                    { 1, true, false, 1, 1, "https://sawoodamo.s3.eu-central-1.amazonaws.com/7bc54b67-6955-4ce1-aa3a-c8d975480b46" },
+                    { 2, true, true, 2, 1, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" },
+                    { 3, true, false, 2, 1, "https://sawoodamo.s3.eu-central-1.amazonaws.com/f13eda0f-807d-4fc2-bea1-e4ab04a1a2e6" },
+                    { 4, true, true, 1, 2, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" },
+                    { 5, true, false, 2, 2, "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c" }
                 });
 
             migrationBuilder.InsertData(

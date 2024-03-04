@@ -1,8 +1,8 @@
 ﻿namespace Sawoodamo.API.Features.Categories;
 
-public sealed record CategoryDTO(int Id, string Slug, string Name, int? Order, bool? IsActive);
+public sealed record CategoryDTO(string Id, string Slug, string Name, int? Order, bool? IsActive);
 
-public sealed record GetCategoryQuery(int Id) : IRequest<CategoryDTO>;
+public sealed record GetCategoryQuery(string Id) : IRequest<CategoryDTO>;
 
 public sealed class GetCategoryQueryHandler(SawoodamoDbContext context) : IRequestHandler<GetCategoryQuery, CategoryDTO>
 {

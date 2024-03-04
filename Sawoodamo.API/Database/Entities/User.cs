@@ -1,6 +1,6 @@
 ﻿namespace Sawoodamo.API.Database.Entities;
 
-public sealed class User : IdentityUser, IEntityWithId<string>
+public sealed class User : IdentityUser, IEntityWithId
 {
     public string Firstname { get; set; } = String.Empty;
     public string Lastname { get; set; } = String.Empty;

@@ -1,6 +1,6 @@
 ﻿namespace Sawoodamo.API.Features.ProductImages;
 
-public sealed record DeleteProductImageCommand(int ImageId, bool? HardDelete = false) : IRequest;
+public sealed record DeleteProductImageCommand(string ImageId, bool? HardDelete = false) : IRequest;
 
 public sealed class DeleteProductImageCommandValidator : AbstractValidator<DeleteProductImageCommand>
 {
@@ -8,9 +8,7 @@ public sealed class DeleteProductImageCommandValidator : AbstractValidator<Delet
     {
         RuleFor(x => x.ImageId)
             .NotNull()
-            .NotEmpty()
-            .NotEqual(default(int))
-                .WithMessage("Invalid Image Id");
+            .NotEmpty();
     }
 }
 

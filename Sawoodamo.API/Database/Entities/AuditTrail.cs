@@ -2,7 +2,7 @@
 
 public sealed class AuditTrail
 {
-    public int Id { get; set; }
+    public string? Id { get; set; }
     public string? EntityId { get; set; }
     public string? EntityType { get; set; }
     public string? Action { get; set; }

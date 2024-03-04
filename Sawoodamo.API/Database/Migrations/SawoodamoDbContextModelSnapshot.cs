@@ -234,8 +234,9 @@ namespace Sawoodamo.API.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Discount")
-                        .HasColumnType("int");
+                    b.Property<decimal>("CurrentPrice")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("FullDescription")
                         .IsRequired()
@@ -266,7 +267,7 @@ namespace Sawoodamo.API.Database.Migrations
                     b.Property<int?>("Order")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("OriginalPrice")
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
 
@@ -294,28 +295,28 @@ namespace Sawoodamo.API.Database.Migrations
                         new
                         {
                             Id = 1,
-                            Discount = 0,
+                            CurrentPrice = 5999m,
                             FullDescription = "Iphone made by apple",
                             IsActive = true,
                             IsDeleted = false,
                             IsPinned = true,
                             Name = "Iphone 15 Pro Max",
                             Order = 1,
-                            Price = 5999m,
+                            OriginalPrice = 5999m,
                             ShortDescription = "Apple iphone",
                             Slug = "iphone-pro-max"
                         },
                         new
                         {
                             Id = 2,
-                            Discount = 10,
+                            CurrentPrice = 1200m,
                             FullDescription = "Ultra super smart fridge made by google that makes food teleport",
                             IsActive = true,
                             IsDeleted = false,
                             IsPinned = true,
                             Name = "Smart fridge",
                             Order = 2,
-                            Price = 1200m,
+                            OriginalPrice = 1200m,
                             ShortDescription = "Bridge by google",
                             Slug = "fridge"
                         });
@@ -398,17 +399,17 @@ namespace Sawoodamo.API.Database.Migrations
                             Id = 1,
                             IsActive = true,
                             IsDeleted = false,
-                            IsMainImage = true,
+                            IsMainImage = false,
                             Order = 1,
                             ProductId = 1,
-                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c"
+                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/7bc54b67-6955-4ce1-aa3a-c8d975480b46"
                         },
                         new
                         {
                             Id = 2,
                             IsActive = true,
                             IsDeleted = false,
-                            IsMainImage = false,
+                            IsMainImage = true,
                             Order = 2,
                             ProductId = 1,
                             Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/1a60e232-930f-4b21-83c3-f9f59a005a9c"
@@ -418,6 +419,16 @@ namespace Sawoodamo.API.Database.Migrations
                             Id = 3,
                             IsActive = true,
                             IsDeleted = false,
+                            IsMainImage = false,
+                            Order = 2,
+                            ProductId = 1,
+                            Url = "https://sawoodamo.s3.eu-central-1.amazonaws.com/f13eda0f-807d-4fc2-bea1-e4ab04a1a2e6"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsActive = true,
+                            IsDeleted = false,
                             IsMainImage = true,
                             Order = 1,
                             ProductId = 2,
@@ -425,7 +436,7 @@ namespace Sawoodamo.API.Database.Migrations
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 5,
                             IsActive = true,
                             IsDeleted = false,
                             IsMainImage = false,
@@ -608,8 +619,8 @@ namespace Sawoodamo.API.Database.Migrations
                         {
                             Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d446118c-fd96-4d30-8057-35aab00347a6",
-                            DateRegistered = new DateTime(2023, 12, 26, 14, 49, 2, 122, DateTimeKind.Utc).AddTicks(5825),
+                            ConcurrencyStamp = "0c931551-9380-4c23-bd6c-a68b51876466",
+                            DateRegistered = new DateTime(2024, 3, 4, 14, 5, 9, 203, DateTimeKind.Utc).AddTicks(2106),
                             Email = "beka.pukhashvili@gmail.com",
                             EmailConfirmed = true,
                             Firstname = "Beka",
@@ -620,10 +631,10 @@ namespace Sawoodamo.API.Database.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "BEKA.PUKHASHVILI@GMAIL.COM",
                             NormalizedUserName = "BEKA.PUKHASHVILI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAcp6Qsz41BYrRInyTo4QLDQlXOokNtFSt1Tm5IgWAwvdCZBLuO0k8BkQ5yHYXsOxA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEISkz8pvcvor7N2TXkAWqA+m2s8LK77uRIdfQa+InkVHV+pHgV5pBw1MZtM4N3J6Dw==",
                             PhoneNumber = "551345679",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "39115312-892d-44cb-bacd-97edae45a277",
+                            SecurityStamp = "6a65e319-f5fe-4e65-b5ad-d1cc61db1c5c",
                             TwoFactorEnabled = false,
                             UserName = "beka.pukhashvili"
                         },
@@ -631,8 +642,8 @@ namespace Sawoodamo.API.Database.Migrations
                         {
                             Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "933603b0-6bc0-4f2f-a2dd-58e9ab4a4300",
-                            DateRegistered = new DateTime(2023, 12, 26, 14, 49, 2, 164, DateTimeKind.Utc).AddTicks(9744),
+                            ConcurrencyStamp = "2ba9419a-a42e-430c-a88c-45303edf2d3f",
+                            DateRegistered = new DateTime(2024, 3, 4, 14, 5, 9, 247, DateTimeKind.Utc).AddTicks(9067),
                             Email = "string",
                             EmailConfirmed = true,
                             Firstname = "string",
@@ -643,10 +654,10 @@ namespace Sawoodamo.API.Database.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "STRING",
                             NormalizedUserName = "STRING",
-                            PasswordHash = "AQAAAAIAAYagAAAAELmswQYrrFJI3B5AqCkXjoBal7o6/KQUGa5tbiu8mwlw/gwSeTbEdUUXSwKgbjgn8g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGoGuIyb1H5KSvPZZC4d5bLpXGFZLdsA40Q646+JIOeXUkvdp2/AXYbHg3/caPaudw==",
                             PhoneNumber = "551345679",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "229b3e3a-1dd8-4f28-8453-487108ec75bc",
+                            SecurityStamp = "0ea36049-faf2-4d25-8a15-7de9f2ac64f7",
                             TwoFactorEnabled = false,
                             UserName = "string"
                         });

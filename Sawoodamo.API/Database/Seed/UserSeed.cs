@@ -27,7 +27,8 @@ public sealed class UserSeed : IEntityTypeConfiguration<User>
                 LockoutEnabled = true,
                 PasswordHash = hasher.HashPassword(null!, "asdASD123!"),
                 NormalizedUserName = "BEKA.PUKHASHVILI",
-            },           new User
+            },
+            new User
             {
                 Id = "83630a13-fe8f-4d4c-bff4-f5d322f8ea5a",
                 Firstname = "string",

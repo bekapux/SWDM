@@ -7,6 +7,7 @@ global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Caching.Memory;
 global using Sawoodamo.API;
 global using Sawoodamo.API.Database;
 global using Sawoodamo.API.Database.Entities;
@@ -39,10 +40,37 @@ public static class ServiceRegistrations
     public static IServiceCollection ConfigureApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthorization();
+        services.AddAuthentication(configuration);
+
         services.AddEndpointsApiExplorer();
         services.AddSwaggerDoc();
         services.AddHttpContextAccessor();
 
+        services.ConfigureDatabase(configuration);
+
+        services.ConfigureMediatr();
+        services.ConfigureAWSS3(configuration);
+        services.ConfigureCors();
+        services.AddMemoryCache();
+
+        services.AddScoped<ISessionService, SessionService>();
+        services.AddScoped<IFileService, FileService>();
+
+        return services;
+    }
+
+    private static void ConfigureCors(this IServiceCollection services)
+    {
+        services.AddCors((o) => o.AddPolicy("debug", policy =>
+        {
+            policy.AllowAnyMethod()
+                .AllowAnyOrigin()
+                .AllowAnyHeader();
+        }));
+    }
+
+    private static void ConfigureMediatr(this IServiceCollection services)
+    {
         var thisAssembly = Assembly.GetExecutingAssembly();
 
         services.AddValidatorsFromAssemblyByOrder(thisAssembly);
@@ -50,36 +78,14 @@ public static class ServiceRegistrations
         services.AddMediatR(o => o.RegisterServicesFromAssemblies(thisAssembly));
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+    }
 
-        services.AddHttpContextAccessor();
-
+    private static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
+    {
         services.AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<SawoodamoDbContext>()
             .AddDefaultTokenProviders();
 
-        services.AddScoped<ISessionService, SessionService>();
-        services.AddScoped<IFileService, FileService>();
-
-        services.ConfigureDatabaseWithAuditTrails(configuration);
-
-        services.AddAuthentication(configuration);
-
-        services.ConfigureAWSS3(configuration);
-
-#if DEBUG
-        services.AddCors((o) => o.AddPolicy("debug", policy =>
-        {
-            policy.AllowAnyMethod()
-                .AllowAnyOrigin()
-                .AllowAnyHeader();
-        }));
-#endif
-
-        return services;
-    }
-
-    private static void ConfigureDatabaseWithAuditTrails(this IServiceCollection services, IConfiguration configuration)
-    {
         services.AddDbContext<SawoodamoDbContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("Default"),
@@ -87,7 +93,7 @@ public static class ServiceRegistrations
 
 
             // Types that you want to Audit
-            HashSet<Type> auditTypes = [typeof(Product), typeof(Category)];
+            //HashSet<Type> auditTypes = [typeof(Product), typeof(Category)];
 
             // properties of types that you want to ignore
             //Dictionary<Type, HashSet<string>> ignoreEntityProperties = new()
@@ -95,7 +101,7 @@ public static class ServiceRegistrations
             //    { typeof(Category), [nameof(Category.Order), nameof(Category.Name)] }
             //};
 
-            options.AddInterceptors(new AuditTrailInterceptor(auditTypes, [] /*ignoreEntityProperties*/));
+            //options.AddInterceptors(new AuditTrailInterceptor(auditTypes, [] /*ignoreEntityProperties*/));
         });
     }
 

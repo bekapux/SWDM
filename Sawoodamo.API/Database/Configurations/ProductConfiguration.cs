@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Sawoodamo.API.Database.Configurations;
 
@@ -20,9 +21,8 @@ public sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.FullDescription).HasMaxLength(Constants.Product.FullDescriptionMaxLength);
         builder.Property(x => x.Slug).HasMaxLength(Constants.Product.FullDescriptionMaxLength);
         builder.Property(x => x.IsPinned).HasDefaultValue(false).IsRequired();
-        builder.Property(x => x.Discount).IsRequired(false);
-        builder.Property(x => x.Price).HasPrecision(10, 2).IsRequired(true);
-
+        builder.Property(x => x.CurrentPrice).HasPrecision(10, 2).IsRequired(true);
+        builder.Property(x => x.OriginalPrice).HasPrecision(10, 2).IsRequired(true);
         builder.HasIndex(x => x.Slug).IsUnique();
         builder.HasIndex(x => x.Name).IsUnique();
 

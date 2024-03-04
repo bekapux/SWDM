@@ -6,8 +6,9 @@ export const theme = {
     transparent: "transparent",
     primary: "#213140",
     secondary: "#a9be55",
-    white: "#EEE",
+    white: "#EEEEEE",
     light: "#FAEEC3",
+    snow: '#eee',
     gray: {
       50: "#9D8B73",
     },

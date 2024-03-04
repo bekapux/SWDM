@@ -1,13 +1,13 @@
 ﻿namespace Sawoodamo.API.Features.Products;
 
 public sealed record UpdateProductCommand(
-    int Id,
+    string Id,
     string Name,
     string ShortDescription,
     string? FullDescription,
     string Slug,
     int? Order,
-    int CategoryId) : IRequest;
+    string CategoryId) : IRequest;
 
 #region Validators
 
